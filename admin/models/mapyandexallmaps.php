@@ -85,7 +85,7 @@ protected	$option 		= 'com_mapyandex';
 	}
 	/**
 	 * 
-	 * @возвращает список строк в файл view.html.php
+	 * @РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє СЃС‚СЂРѕРє РІ С„Р°Р№Р» view.html.php
 	 */
 	function getDefaultSettings()
 	{
@@ -115,7 +115,7 @@ protected	$option 		= 'com_mapyandex';
 
 	/**
 	 * 
-	 * @возвращает список строк в файл view.html.php
+	 * @РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє СЃС‚СЂРѕРє РІ С„Р°Р№Р» view.html.php
 	 */
 	function getFoobar()
 	{
@@ -123,7 +123,7 @@ protected	$option 		= 'com_mapyandex';
 	// Create a new query object.
 	$db		= JFactory::getDBO();
 	$query	= $db->getQuery(true);
-	//вставляем насройки последней карты в новую...
+	//РІСЃС‚Р°РІР»СЏРµРј РЅР°СЃСЂРѕР№РєРё РїРѕСЃР»РµРґРЅРµР№ РєР°СЂС‚С‹ РІ РЅРѕРІСѓСЋ...
 	$data['task'] = JRequest::getVar('task');
 	$data['layout'] = JRequest::getVar('layout');
 	if($data['task'] !== 'add') {
@@ -168,7 +168,7 @@ protected	$option 		= 'com_mapyandex';
 
 	/**
 	 * 
-	 * @возвращает список строк в файл view.html.php
+	 * @РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє СЃС‚СЂРѕРє РІ С„Р°Р№Р» view.html.php
 	 */
 
 	
