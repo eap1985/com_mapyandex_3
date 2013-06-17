@@ -104,7 +104,7 @@ protected	$option 		= 'com_mapyandex';
 		$s->yandexborder = 0;
 		$s->bradius = 0;
 		$s->center_map_yandex = '';
-		$s->autozoom = 1;
+		$s->autozoom = 0;
 		$s->color_map_yandex = '';
 		$s->oblako_width_map_yandex = '';
 		$s->name_map_yandex = '';
@@ -125,6 +125,7 @@ protected	$option 		= 'com_mapyandex';
 	$query	= $db->getQuery(true);
 	//вставляем насройки последней карты в новую...
 	$data['task'] = JRequest::getVar('task');
+	$data['layout'] = JRequest::getVar('layout');
 	if($data['task'] !== 'add') {
 	$app = JFactory::getApplication(); 
 	$limit = JRequest::getVar('limit',$app->getCfg('list_limit'));
@@ -150,6 +151,7 @@ protected	$option 		= 'com_mapyandex';
 			}
 		}
 		$query->order('ID DESC');
+		if($data['layout'] == 'form') $limit = 1;
 		$query = $db->setQuery( $query, $limitstart, $limit );
 		$this->_foobar = $db->loadObjectList();
 		

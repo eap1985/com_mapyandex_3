@@ -35,6 +35,7 @@ class MapYandexViewMapYandexAllMaps extends JViewLegacy
 		$this->state = $this->get('State');
 
 		$data['layout'] = JRequest::getVar('layout');
+		$data['task'] = JRequest::getVar('task');
 		
 		if($data['layout'] == 'form') {
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_YANDEXNEWMAP' ), 'mapyandexallmaps' );
@@ -51,9 +52,12 @@ class MapYandexViewMapYandexAllMaps extends JViewLegacy
 		// interrogate the model
 		$this->foobar = $this->get('Foobar');
 		
+		if($data['layout'] == 'form' && $data['task'] != 'add' && !empty($this->foobar)) $this->foobar = $this->foobar[0];
+		
 		if(empty($this->foobar) && $data['layout'] == 'form') {
 			
 			$this->foobar = $this->get('DefaultSettings');
+			
 		}
 		
 		
