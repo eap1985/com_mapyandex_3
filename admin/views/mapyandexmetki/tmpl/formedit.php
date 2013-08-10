@@ -32,6 +32,7 @@ $this->editmarker=$this->editmarker[0];
 $longitude = '';
 $latitude = '';
 $stylead = '';
+$stylecoo='';
 if($this->editmarker->yandexcoord == 1) {
 	$stylecoo='style="display:none;"';
 	$valone = 'var valone = "'.$this->editmarker->city_map_yandex.', '.$this->editmarker->street_map_yandex.'"';
