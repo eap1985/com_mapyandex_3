@@ -58,7 +58,7 @@ function __construct()
 		// if foobar is not already loaded load it now
 		if (!$this->_foobar)
 		{
-			$db =& $this->getDBO();
+			$db = $this->getDBO();
 			$query = "SELECT * FROM ".$db->quoteName('#__map_yandex') 
 			." WHERE ".$db->quoteName('id')." = ".$this->_id;
 			$db->setQuery($query);
