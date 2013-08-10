@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -36,7 +36,7 @@ function __construct()
 
 
 /**
-* Îáíîâëåíèå ID è äàííûõ
+* ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ ID Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ñ…
 *
 * @param int foobar ID
 */
@@ -50,8 +50,8 @@ function __construct()
 
 
 	/**
-	 * Âûâîä ìóäðûõ ìûñëåé ñ ïàãèíàöèåé
-	 * @âîçâðàùàåò ñïèñîê ñòðîê â ôàéë view.html.php
+	 * Ð’Ñ‹Ð²Ð¾Ð´ Ð¼ÑƒÐ´Ñ€Ñ‹Ñ… Ð¼Ñ‹ÑÐ»ÐµÐ¹ Ñ Ð¿Ð°Ð³Ð¸Ð½Ð°Ñ†Ð¸ÐµÐ¹
+	 * @Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ ÑÐ¿Ð¸ÑÐ¾Ðº ÑÑ‚Ñ€Ð¾Ðº Ð² Ñ„Ð°Ð¹Ð» view.html.php
 	 */
 	function getFoobar()
 	{
@@ -73,5 +73,4 @@ function __construct()
 	
 
 }
-
-
+?>
