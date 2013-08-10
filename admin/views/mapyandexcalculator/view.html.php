@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -17,7 +17,7 @@ jimport( 'joomla.application.component.view' );
  * @package    Joomla.Tutorials
  * @subpackage Components
  */
-class MapYandexViewmapyandexcalculator extends JViewLegacy
+class MapYandexViewMapyandexcalculator extends JViewLegacy
 {
 
 	protected $state;
@@ -111,3 +111,4 @@ class MapYandexViewmapyandexcalculator extends JViewLegacy
 		parent::display($tpl);
 	}
 }
+?>

@@ -407,7 +407,7 @@ $j(function(){
 						handler: 'iframe'
 						
 						}">
-						<?php echo JText::_( 'COM_MAPYANDEX_OPENMODAL' ); ?>
+						<?php echo JText::_( 'COM_MAPYANDEX_ONLY_OPENMODAL' ); ?>
 						</a></div></div>
 				
 			</td>

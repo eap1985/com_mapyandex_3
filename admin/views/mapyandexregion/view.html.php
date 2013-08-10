@@ -17,7 +17,7 @@ jimport( 'joomla.application.component.view' );
  * @package    Joomla.Tutorials
  * @subpackage Components
  */
-class MapYandexViewmapyandexregion extends JViewLegacy
+class MapYandexViewMapyandexregion extends JViewLegacy
 {
 
 	protected $state;

@@ -1,6 +1,6 @@
 <?php 
 /*
- * @package Joomla 3.0
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -26,9 +26,9 @@ JHtml::_('formbehavior.chosen', 'select');
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MAPYANDEX_SEARCH_IN_TITLE'); ?>" />
 			</div>
 			<div class="btn-group pull-left hidden-phone">
-		<button class="btn tip hasTooltip" type="submit" title="<?php JText::_('search');?>"><i class="icon-search"></i></button>
+		<button class="btn tip hasTooltip" type="submit" title="<?php JText::_($txtFs);?>"><i class="icon-search"></i></button>
 		<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();"
-		 title="<?php JText::_('clear');?>"><i class="icon-remove"></i></button>
+		 title="<?php JText::_($txtFc);?>"><i class="icon-remove"></i></button>
 		</div>
 
 		<div class="btn-group pull-right hidden-phone">
@@ -150,4 +150,3 @@ JHtml::_('formbehavior.chosen', 'select');
 
 <?php echo JHtml::_('form.token'); ?>
 </form>
-

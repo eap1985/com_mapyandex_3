@@ -80,9 +80,15 @@ class com_mapYandexInstallerScript
 	 * postflight is run after the extension is registered in the database.
 	 */
 	function postflight( $type, $parent ) {
-		// always create or modify these parameters
-
- 
+		// load language file
+		
+		$lang = JFactory::getLanguage();
+		$extension = 'com_mapyandex';
+		$base_dir = JPATH_SITE;
+		$language_tag = 'ru-RU';
+		$reload = true;
+		$lang->load($extension, $base_dir, $language_tag, $reload);
+		
 		// define the following parameters only if it is an original install
 		if ( $type == 'install' ) {
 			$params['draggable_placemark'] = 1;
@@ -92,10 +98,10 @@ class com_mapYandexInstallerScript
 			$params['userpathtoimg'] = '/images/mapyandex/yandexmarkerimg/';
 		}
 		$this->setParams( $params );
-
 		if(!defined('DS')){
 		define('DS',DIRECTORY_SEPARATOR);
 		}
+
 		$folder[0][0]	=	'images' . DS . 'mapyandex' . DS ;
 		$folder[0][1]	= 	JPATH_ROOT . DS .  $folder[0][0];
 		$folder[1][0]	=	'images' . DS . 'mapyandex' . DS . 'yandexmarkerimg' . DS;

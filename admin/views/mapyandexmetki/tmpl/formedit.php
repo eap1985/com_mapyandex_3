@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 2.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -31,6 +31,7 @@ $this->editmarker=$this->editmarker[0];
 
 $longitude = '';
 $latitude = '';
+$stylead = '';
 if($this->editmarker->yandexcoord == 1) {
 	$stylecoo='style="display:none;"';
 	$valone = 'var valone = "'.$this->editmarker->city_map_yandex.', '.$this->editmarker->street_map_yandex.'"';
@@ -246,7 +247,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 						handler: 'iframe'
 						
 						}">
-						<?php echo JText::_( 'COM_MAPYANDEX_OPENMODAL' ); ?>
+						<?php echo JText::_( 'COM_MAPYANDEX_ONLY_OPENMODAL' ); ?>
 						</a></div></div>
 
 				</div>

@@ -64,7 +64,7 @@ function __construct()
 	{
 		$mid = JRequest::getVar( 'mid', array(0), 'post', 'array' );
 				
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		
 		$query = ' SELECT * '
 			. ' FROM #__map_yandex_metki WHERE id='.$this->_mid;

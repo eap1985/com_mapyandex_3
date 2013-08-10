@@ -10,6 +10,7 @@
 <div class="pga-cpanel-left">
 	<div id="cpanel">
 		<?php
+		
 		$link = 'index.php?option=com_mapyandex';
 		echo $this->MapYandexRenderAdmin->quickIconButton( $link, 'icon-48-mapyandex.png', JText::_('COM_MAPYANDEX_HOME_PAGE') );
 		
@@ -49,7 +50,7 @@
 		<?php
 
 		echo '<h3>'.  JText::_('COM_MAPYANDEX_VERSION').'</h3>'
-		.'<p>'.  $this->tmpl['version'] .'</p>';
+		.'<p>'.  $this->MapYandexRenderInfo->getYndexMapVersion() .'</p>';
 
 		echo '<h3>'.  JText::_('COM_MAPYANDEX_YM_VERSION').'</h3>'
 		.'<p>2.0.10</p>';
@@ -69,7 +70,7 @@
 		
 		<?php
 		echo '<div style="border-top:1px solid #c2c2c2"></div>'
-.'<div id="pg-update"><a href="http://www.slyweb.ru/yandexmap/version/index.php?version='.  $this->tmpl['version'] .'" target="_blank">'.  JText::_('COM_MAPYANDEX_CHECK_FOR_UPDATE') .'</a></div>';
+.'<div id="pg-update"><a href="http://www.slyweb.ru/yandexmap/version/index.php?version='.  $this->MapYandexRenderInfo->getYndexMapVersion() .'" target="_blank">'.  JText::_('COM_MAPYANDEX_CHECK_FOR_UPDATE') .'</a></div>';
 		?>
 		
 	</div>

@@ -9,12 +9,15 @@ defined('_JEXEC') or die();
 jimport( 'joomla.application.component.view' );
 jimport( 'joomla.filesystem.file' );
 
-class mapyandexViewmapyandexajaxdelete extends JViewLegacy
+class MapYandexViewMapyandexajaxdelete extends JViewLegacy
 {
 	/**
 	 * Hellos view display method
 	 * @return void
 	 **/
+	protected $success;
+	protected $info;
+	
 	function display($tpl = null)
 	{
 
