@@ -23,12 +23,6 @@ echo '<div class="span12 form-horizontal">';
 
 	<?php $document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&lang=ru-RU');?>
 
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');?>
 
 <?php
 	$lineika = '';
@@ -383,27 +377,6 @@ $script ='
 	}
 		//-->	
 
-$j( ".sort" ).sortable({  items: ".ui-state-default", stop: function(event, ui) {
-
-
-// 
- le = $j(this).find("li").length - 1;
- $j.each($j(this).find("li"),function(i,e){
-
- 				if(i == 0) {
-					var text = "Начало";
-				} else if(i == le) {
-					var text = "Конец пути";
-				} else {
-					var text = "Пункт "+i;
-				}
-				$j(this).find(".key label").text(text);
- 
- });
- 
- 
- 
- },handle:\'.ui-icon\'});
 	
 });';
 	
@@ -595,4 +568,5 @@ $document->addScriptDeclaration($script);
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="map_type" value="calculator" />
 <input type="hidden" name="controller" value="mapyandexcalculator" />
+<input type="hidden" name="view" value="mapyandexcalculator" />
 </form>

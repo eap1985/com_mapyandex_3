@@ -539,4 +539,5 @@ echo '</div>';
 <input type="hidden" name="editmarket" value="1" />
 <input type="hidden" name="task" value="edit" />
 <input type="hidden" name="controller" value="mapyandexmetki" />
+<input type="hidden" name="view" value="mapyandexmetki" />
 </form>

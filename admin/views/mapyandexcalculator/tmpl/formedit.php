@@ -1,6 +1,6 @@
 <?php 
 /*
- * @package Joomla 3.0
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -23,12 +23,7 @@ echo '<div class="span12 form-horizontal">';
 
 	<?php $document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&lang=ru-RU');?>
 
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');?>
+
 
 <?php
 	$lineika = '';
@@ -600,4 +595,5 @@ $document->addScriptDeclaration($script);
 <input type="hidden" name="editmarket" value="1" />
 <input type="hidden" name="map_type" value="calculator" />
 <input type="hidden" name="controller" value="mapyandexcalculator" />
+<input type="hidden" name="view" value="mapyandexcalculator" />
 </form>

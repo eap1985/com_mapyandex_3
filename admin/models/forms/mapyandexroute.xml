@@ -11,7 +11,8 @@
 
 <field name="parent_id" type="phocagallerycategory" label="COM_MAPYANDEX_FIELD_PARENT_CATEGORY_LABEL" description="COM_MAPYANDEX_FIELD_CATEGORY_CATEGORY_DESC"  class="inputbox" />
 
-
+<field name="color_map_region" type="color" default="#eee" label="COLOR_MAP_REGION"	description="COLOR_MAP_REGION" />
+<field name="color_map_route" type="color" default="#eee" label="COLOR_MAP_ROUTE"	description="COLOR_MAP_ROUTE" />
 
 <field name="ordering" type="PhocaGalleryOrdering" table="category" class="inputbox" label="COM_MAPYANDEX_FIELD_ORDERING_LABEL" description="COM_MAPYANDEX_FIELD_ORDERING_DESC" />
 

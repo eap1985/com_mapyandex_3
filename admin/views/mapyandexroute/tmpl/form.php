@@ -1,6 +1,6 @@
 <?php 
 /*
- * @package Joomla 3.0
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -15,6 +15,7 @@ $r 			=  new MapYandexRenderAdminView();
 $app		= JFactory::getApplication();
 $option 	= $app->input->get('option');
 $OPT		= strtoupper($option);
+
 echo '<form action="index.php" method="post" name="adminForm" id="adminForm">';
 echo '<div class="row-fluid">';
 echo '<div class="span10 form-horizontal">';
@@ -26,12 +27,6 @@ echo '<fieldset>';
 
 	<?php $document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&lang=ru-RU');?>
 
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');?>
 
 <?php
 	$lineika 	= '';
@@ -499,7 +494,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 				</label>
 			</td>
 			<td width="100" align="left">
-<div id="editcell">
+			<div id="editcell">
 
 
 
@@ -563,12 +558,9 @@ echo '<div class="tab-pane" id="publishing">'."\n";
 				</div>
 				<div class="controls">
 
-			
-			<input type="text" name="color_map_route" value="<?php echo $this->foobar->color_map_route;?>" style="margin:0 0 0 0px;" />
-			<div class="clr"></div>
+					<?php echo $this->form->getInput('color_map_route'); ?>
 				
-				
-				<div id="colorSelector" style="bottom: -15px;"><div style="background-color: #<?php echo $this->foobar->color_map_route;?>"></div></div>
+
 				</div>
 			</div>	
 
@@ -584,4 +576,5 @@ echo '<div class="tab-pane" id="publishing">'."\n";
 <input type="hidden" name="id" value="<?php echo $this->foobar->id; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="controller" value="mapyandexroute" />
+<input type="hidden" name="view" value="mapyandexroute" />
 </form>

@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -27,11 +27,19 @@ mapyandeximport('mapyandex.render.renderadminview');
  
 jimport('joomla.application.component.controller');
 
-$controller	= JControllerLegacy::getInstance('MapYandex');
+$controller = JRequest::getWord('view', 'mapyandex');
+$controller = JString::strtolower($controller);
+require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+$classname = 'MapYandexController'.ucfirst($controller);
 
-$controller->execute(JRequest::getCmd('task'));
 
+$controller = new $classname();
+
+
+$controller->execute(JRequest::getWord('task'));
 $controller->redirect();
+
+
 
 
 ?>

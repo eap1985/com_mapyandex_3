@@ -9,7 +9,7 @@
 	<copyright>Aleksandr Ermakov and www.slyweb.ru</copyright>
 	<license>http://www.gnu.org/licenseses/gpl-2.0.html GNU/GPL</license>
 	<!--  The version string is recorded in the components table -->
-	<version>3.0.0</version>
+	<version>3.2.0</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Яндекс карты на вашем сайте от www.slyweb.ru!</description>
 
@@ -60,7 +60,7 @@
 			<!-- Note that all & must be escaped to &amp; for the file to be valid XML and be parsed by the installer -->
 			<menu img="components/com_mapyandex/assets/images/mapyandexhp.png" link="option=com_mapyandex">COM_MAPYANDEX_HOMECP</menu>
 			<menu img="components/com_mapyandex/assets/images/allmap.png" link="option=com_mapyandex&amp;view=mapyandexallmaps">COM_MAPYANDEX_ALLMAPS</menu>
-			<menu img="components/com_mapyandex/assets/images/createmap.png" link="option=com_mapyandex&amp;controller=mapyandex&amp;task=add">COM_MAPYANDEX_CREATEMAP</menu>
+			<menu img="components/com_mapyandex/assets/images/createmap.png" link="option=com_mapyandex&amp;view=mapyandexallmaps&amp;task=add">COM_MAPYANDEX_CREATEMAP</menu>
 			<menu img="components/com_mapyandex/assets/images/mapyandexmarker.png" link="option=com_mapyandex&amp;view=mapyandexmetki">COM_MAPYANDEX_CREATE_MARKERS</menu>
 			<menu img="components/com_mapyandex/assets/images/routes-18.png" link="option=com_mapyandex&amp;view=mapyandexroute">COM_MAPYANDEX_ROUTES</menu>
 			<menu img="components/com_mapyandex/assets/images/regions-18.png" link="option=com_mapyandex&amp;view=mapyandexregion">COM_MAPYANDEX_CALCLATOR_R</menu>

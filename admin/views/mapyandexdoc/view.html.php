@@ -12,17 +12,11 @@ class MapYandexViewMapyandexdoc extends JViewLegacy
 {
 	function display($tpl = null) {
 		
-		$tmpl		= array();
-		$css = '.icon-48-mapyandexdoc {
-				background: url(\'../media/com_mapyandex/colorpicker/images/icon-48-mapyandexdoc.png\') 0 0 no-repeat;
-		}';
-		$doc = JFactory::getDocument();
-		$doc->addStyleDeclaration($css);
-		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_INSTRUCTION' ), 'mapyandexdoc' );
-
 		
+		$doc = JFactory::getDocument();
 
-		$this->assignRef('tmpl',	$tmpl);
+		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_INSTRUCTION' ), 'mapyandexdoc' );
+		$doc->addStyleSheet( JURI::root(true).'/administrator/components/com_mapyandex/assets/mapyandex.css' );
 		
 		parent::display($tpl);
 	}

@@ -51,8 +51,8 @@ class mapyandexViewMapyandex extends JViewLegacy
 
 		
 		// prepare the cSS
-			$css = '.icon-48-mapyandexcalculator {
-				background: url("'.JURI::root(true).'/media/com_mapyandex/colorpicker/images/icon-48-mapyandexcalculator.png") 0 0 no-repeat;
+			$css = '.icon-48-mapyandexallmaps {
+				background: url("'.JURI::root(true).'/media/com_mapyandex/colorpicker/images/icon-48-png") 0 0 no-repeat;
 			}';
 			
 			// add the CSS to the document
@@ -60,24 +60,24 @@ class mapyandexViewMapyandex extends JViewLegacy
 		$document->addStyleDeclaration($css);
 
 
-		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_CALC' ), 'mapyandexcalculator' );
+		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX' ), 'mapyandexallmaps' );
 		
 		$data['layout'] = JRequest::getVar('layout');
 
 		if($data['layout'] == 'form') { 
-			JToolBarHelper::save('mapyandexcalculator.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::cancel( 'mapyandexcalculator.cancel','COM_MAPYANDEX_CANCEL' );
+			JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::cancel( 'cancel','COM_MAPYANDEX_CANCEL' );
 		}
 		else if($data['layout'] == 'formedit') {
 
-			JToolBarHelper::apply('mapyandexcalculator.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('mapyandexcalculator.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::cancel( 'mapyandexcalculator.cancel','COM_MAPYANDEX_CANCEL' );
+			JToolBarHelper::apply('apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::cancel( 'cancel','COM_MAPYANDEX_CANCEL' );
 	
 		} else {
-			JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_CALC' ), 'mapyandexcalculator' );
+			JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX' ), 'mapyandexallmaps' );
 			JToolBarHelper::preferences('com_mapyandex', '460');
-			JToolBarHelper::addNew('mapyandexcalculator.add');
+	
 			
 			
 		}

@@ -20,17 +20,11 @@ class MapYandexViewMapyandexallmaps extends JViewLegacy
 	 **/
 	function display($tpl = null)
 	{
-		// prepare the cSS
-			$css = '.icon-48-mapyandexallmaps {
-				background: url(\'../media/com_mapyandex/colorpicker/images/icon-48-mapyandex.png\') 0 0 no-repeat;
-			}
-			.icon-48-allmaps {
-				background: url(\'../media/com_mapyandex/colorpicker/images/icon-48-allmaps.png\') 0 0 no-repeat;
-			}';
+
 			
 			// add the CSS to the document
 		$doc =JFactory::getDocument();
-		$doc->addStyleDeclaration($css);
+		$doc->addStyleSheet( JURI::root(true).'/administrator/components/com_mapyandex/assets/mapyandex.css' );
 		$this->form	= $this->get('Form');
 		$this->state = $this->get('State');
 
@@ -39,15 +33,15 @@ class MapYandexViewMapyandexallmaps extends JViewLegacy
 		
 		if($data['layout'] == 'form') {
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_YANDEXNEWMAP' ), 'mapyandexallmaps' );
-			JToolBarHelper::save('mapyandexallmaps.save', 'COM_MAPYANDEX_SAVE_NEW_MAP');
-			JToolBarHelper::cancel('mapyandexallmaps.cancel');
+			JToolBarHelper::save('save', 'COM_MAPYANDEX_SAVE_NEW_MAP');
+			JToolBarHelper::cancel('cancel');
 		}
 		else {
 			JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_NAMECOMPONENT' ), 'allmaps' );
 			JToolBarHelper::preferences('com_mapyandex', '460');
-			JToolBarHelper::addNew('mapyandexallmaps.add');
+			JToolBarHelper::addNew('add');
 			
-			JToolBarHelper::deleteList(JText::_( 'COM_MAPYANDEX_DELETE_CONFIRM' ),'mapyandexallmaps.remove');
+			JToolBarHelper::deleteList(JText::_( 'COM_MAPYANDEX_DELETE_CONFIRM' ),'remove');
 		}
 		// interrogate the model
 		$this->foobar = $this->get('Foobar');

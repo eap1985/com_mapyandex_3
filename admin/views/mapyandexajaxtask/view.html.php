@@ -11,7 +11,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view' );
 
-class MapYandexViewmapyandexajaxtask extends JView
+class MapYandexViewmapyandexajaxtask extends JViewLegacy
 {
 
 	function display($tpl = null) {

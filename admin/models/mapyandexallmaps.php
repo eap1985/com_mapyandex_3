@@ -234,12 +234,11 @@ protected	$option 		= 'com_mapyandex';
 	{	
 		$row = $this->getTable('map');
 		
-	
-		
+
 		$data = JRequest::get( 'post' );
 		$data['misil'] = JRequest::getVar('misil', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data['misilonclick'] = JRequest::getVar('misilonclick', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['text_map_yandex'] = JRequest::getVar('jform', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$jform = JRequest::getVar('jform', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		// Bind the form fields to the hello table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
@@ -257,7 +256,7 @@ protected	$option 		= 'com_mapyandex';
 			$db = $this->getDBO();
 			$query = "INSERT INTO ".$db->quoteName('#__map_yandex') 
 			." (`misil`,`misilonclick`,`name_map_yandex`,`defaultmap`, `id_map_yandex`, `city_map_yandex`, `street_map_yandex`, `checked_out`, `ordering`, `published`, `hits`, `catid`, `params`, `width_map_yandex`, `height_map_yandex`, `oblako_width_map_yandex`, `yandexbutton`, `color_map_yandex`, `bradius`, `yandexborder`,`yandexcoord`,`lng`,`yandexzoom`,`yandexel`,`text_map_yandex`,`checked_out_time`) VALUES 
-			('".$this->textnl($data['misil'])."','".$this->textnl($data['misilonclick'])."','".$data['name_map_yandex']."','".$data['defaultmap']."','".$data['id_map_yandex']."', '".$data['city_map_yandex']."', '".$data['street_map_yandex']."', 0, 4, 1, 0, 1, '', '".$data['width_map_yandex']."', '".$data['height_map_yandex']."', '".$data['oblako_width_map_yandex']."', '".$data['yandexbutton']."', '".$data['color_map_yandex']."', '".$data['bradius']."', '".$data['yandexzoom']."','".$data['yandexcoord']."','$lng','".$data['yandexzoom']."','".$el."','".$this->textnl($data['text_map_yandex']['text_map_yandex'])."','".$date."')";
+			('".$this->textnl($data['misil'])."','".$this->textnl($data['misilonclick'])."','".$data['name_map_yandex']."','".$data['defaultmap']."','".$data['id_map_yandex']."', '".$data['city_map_yandex']."', '".$data['street_map_yandex']."', 0, 4, 1, 0, 1, '', '".$data['width_map_yandex']."', '".$data['height_map_yandex']."', '".$data['oblako_width_map_yandex']."', '".$data['yandexbutton']."', '".$jform['color_map_yandex']."', '".$data['bradius']."', '".$data['yandexzoom']."','".$data['yandexcoord']."','$lng','".$data['yandexzoom']."','".$el."','".$this->textnl($jform['text_map_yandex'])."','".$date."')";
 			
 			$db->setQuery($query);
 			

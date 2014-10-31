@@ -22,12 +22,6 @@ $OPT		= strtoupper($option);
 
 	$document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&lang=ru-RU');?>
 
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');?>
 
 <?php
 	$lineika = '';
@@ -801,10 +795,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 				</div>
 				<div class="controls">
 
-			
-			<input type="text" name="color_map_yandex" value="<?php echo $this->foobar->color_map_yandex;?>" style="margin:0 0 10px 0px;">
-			<div class="clr"></div>
-			<div id="colorSelector"><div style="background-color: #<?php echo $this->foobar->color_map_yandex;?>"></div></div>
+					<?php echo $this->form->getInput('color_map_yandex'); ?>
 				</div>
 			</div>
 			
@@ -921,7 +912,7 @@ echo '</div>'. "\n";
 <input type="hidden" name="id" value="<?php echo $this->foobar->id; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="controller" value="map" />
-
+<input type="hidden" name="view" value="map" />
 		</fieldset>
 		</div>
 	</div>

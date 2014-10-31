@@ -36,24 +36,24 @@ class MapYandexViewMapyandexmetki extends JViewLegacy
 		
 		if($data['layout'] == 'form') {
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_NEWNMARKER' ), 'mapyandexmarker' );
-			JToolBarHelper::save('mapyandexmetki.save');
-			JToolBarHelper::cancel('mapyandexmetki.cancel');
+			JToolBarHelper::save('save');
+			JToolBarHelper::cancel('cancel');
 	
 		}
 		else if($data['layout'] == 'formedit') {
 			JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_YANDEXMARKEREDIT' ), 'mapyandexmarker' );
 		
-			JToolBarHelper::save('mapyandexmetki.save');
-			JToolBarHelper::apply('mapyandexmetki.apply');
-			JToolBarHelper::cancel('mapyandexmetki.cancel','JTOOLBAR_CLOSE');
+			JToolBarHelper::save('save');
+			JToolBarHelper::apply('apply');
+			JToolBarHelper::cancel('cancel','JTOOLBAR_CLOSE');
 					
 
 		}	else {
 			JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_YANDEXNEWMARKER' ), 'mapyandexmarker' );
 			JToolBarHelper::preferences('com_mapyandex', '460');
-			JToolBarHelper::addNew('mapyandexmetki.add');
+			JToolBarHelper::addNew('add');
 			
-			JToolBarHelper::deleteList( JText::_( 'COM_MAPYANDEX_YANDEXNEWMARKER_DELETE_CONFIRM' ), 'mapyandexmetki.remove');
+			JToolBarHelper::deleteList( JText::_( 'COM_MAPYANDEX_YANDEXNEWMARKER_DELETE_CONFIRM' ), 'remove');
 		}
 		// interrogate the model
 

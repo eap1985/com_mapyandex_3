@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -55,33 +55,25 @@ class MapYandexViewMapyandexregion extends JViewLegacy
 		JHTML::stylesheet( 'administrator/components/com_mapyandex/assets/mapyandex.css' );
 		$document->addScript($jsLink . '/components/com_mapyandex/assets/js/jquery-1.7.2.min.js');
 		$document->addScript($jsLink . '/components/com_mapyandex/assets/js/jquery-ui-1.8.21.custom.min.js');
-		
-		// prepare the cSS
-			$css = '.icon-48-mapyandexe {
-				background: url("'.JURI::root(true).'/media/com_mapyandex/colorpicker/images/icon-48-mapyandexregions.png") 0 0 no-repeat;
-			}';
-			
-			// add the CSS to the document
-
-		$document->addStyleDeclaration($css);
 
 
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_REGIONS' ), 'mapyandexe' );
 		
 		$data['layout'] = JRequest::getVar('layout');
-		
-		if($data['layout'] == 'form') {
-			JToolBarHelper::apply('mapyandexregion.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('mapyandexregion.save', 'JTOOLBAR_SAVE');
-			
-			JToolBarHelper::cancel( 'mapyandexregion.cancel','COM_MAPYANDEX_CANCEL' );	
-		}
 		$this->foobar = $this->get('Foobar');
+		if($data['layout'] == 'form' && !empty($this->foobar)) {
+			JToolBarHelper::apply('apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
+			
+			JToolBarHelper::cancel( 'cancel','COM_MAPYANDEX_CANCEL' );	
+			$map_region_style = array();
+			$map_region_style = json_decode($this->foobar->map_region_style);
+
+			$this->foobar->color_map_region = $map_region_style[1];
+			$this->form->bind($this->foobar);
+		} 
 		
 		$this->allroute = $this->get('AllRoute');
-
-		$this->assignRef( 'tmpl', $tmpl );
-		
 		$this->metka = $this->get('Metka');
 		
 		$pageNav = $this->get('Reviews');

@@ -213,7 +213,7 @@ var $_metka;
 			$db = $this->getDBO();
 			$query = "UPDATE ".$db->quoteName('#__map_yandex') 
 			." set ".$db->quoteName('route_map_yandex')." = '".$this->textnl($el)
-			."', ".$db->quoteName('color_map_route')." = '".$this->textnl($data['color_map_route'])
+			."', ".$db->quoteName('color_map_route')." = '".$this->textnl($data['jform']['color_map_route'])
 			."', ".$db->quoteName('map_route_opacity')." = '".$this->textnl($data['jform']['map_route_opacity'])
 			."' WHERE ".$db->quoteName('id')." =".$data['id'];
 			$db->setQuery($query);

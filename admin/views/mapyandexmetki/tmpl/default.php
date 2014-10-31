@@ -200,6 +200,7 @@ JHtml::_('formbehavior.chosen', 'select');
  </div>
 <input type="hidden" name="controller" value="mapyandexmetki" />
 <input type="hidden" name="task" value="" />
+<input type="hidden" name="view" value="mapyandexmetki" />
 <input type="hidden" name="boxchecked" value="0" />
 <?php echo JHtml::_('form.token'); ?>
 </form>

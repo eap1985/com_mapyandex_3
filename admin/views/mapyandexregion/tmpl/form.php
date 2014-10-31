@@ -46,13 +46,6 @@ echo '<div class="tab-pane active" id="general">'."\n";
 
 	<?php $document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full,util.json&lang=ru-RU');?>
 
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');?>
-
 <?php
 	$lineika = '';
 	$minimap = '';
@@ -721,7 +714,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			</td>
 								<td width="100" align="left">
-			 <input type="text" name="name_map_yandex" id="keyword" value="<?php echo $this->foobar->name_map_yandex;?>" />
+			 <input type="text" readonly="true" name="name_map_yandex" id="keyword" value="<?php echo $this->foobar->name_map_yandex;?>" />
 			</td>
 			</tr>
 			
@@ -797,16 +790,14 @@ echo '<div class="tab-pane" id="publishing">'."\n";
 		
 			<div class="control-group">
 				<div class="control-label">
-				<?php echo JText::_('COM_MAPYANDEX_FIELD_COLOR_LABEL'); ?>
+				<?php echo JText::_('COM_MAPYANDEX_COLOR_MAP_REGION'); ?>
 				</div>
 				<div class="controls">
 
+				<?php echo $this->form->getInput('color_map_region'); ?>
 			
-			<input type="text" name="color_map_region" value="<?php echo $map_region_style[1];?>" style="margin:0 0 0 0px;" />
-			<div class="clr"></div>
 				
 				
-					<div id="colorSelector" style="bottom: -15px;"><div style="background-color: #<?php echo $this->foobar->color_map_route;?>"></div></div>
 				</div>
 			</div>
 	
@@ -823,5 +814,6 @@ echo '<div class="tab-pane" id="publishing">'."\n";
 <input type="hidden" name="option" value="com_mapyandex" />
 <input type="hidden" name="id" value="<?php echo $this->foobar->id; ?>" />
 <input type="hidden" name="task" value="" />
+<input type="hidden" name="view" value="mapyandexregion" />
 <input type="hidden" name="controller" value="mapyandexregion" />
 </form>

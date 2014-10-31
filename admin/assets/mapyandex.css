@@ -221,6 +221,88 @@ color:green;
 display:none;
 }
 
-.colorpicker input {
-width:20px;
+body .colorpicker  input {
+	width:20px;
+	height:15px;
+	background-color: transparent!important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+	padding:0 !important;
+}
+@font-face {
+	font-family: 'iconmoons';
+	src:url('iconmoon/fonts/icomoon.eot');
+	src:url('iconmoon/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('iconmoon/fonts/icomoon.woff') format('woff'),
+		url('iconmoon/fonts/icomoon.ttf') format('truetype'),
+		url('iconmoon/fonts/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.com_mapyandex .page-title [class^="icon-"]:before,
+.com_mapyandex .page-title[class*=" icon-"]:before,
+.com_mapyandex #toolbar-closeorder.btn-wrapper button.btn span[class*="icon-"]:before {
+	font-family: 'iconmoons';
+	font-style: normal;
+	speak: none;
+}
+
+
+.icon-mapyandexallmaps:before {
+	content: "\e604";
+}
+.layout-form .icon-mapyandexallmaps:before {
+	content: "\e610";
+}
+.icon-mapyandexe:before {
+	content: "\e601";
+}
+.icon-category-add:before,.icon-category-edit:before{
+	content: "\e610";
+}
+
+.icon-allmaps:before {
+	content: "\e602";
+}
+
+.icon-mapyandexcalculator:before {
+	content: "\e600";
+}
+
+.icon-ejoshoppayments:before,.com_mapyandex .icon-generic:before {
+	content: "\e617";
+}
+.icon-ejoshopsales:before ,.ejoshop-sale-add:before {
+	content: "\e60f";
+}
+.icon-csvpricetotext:before {
+	content: "\e608";
+}
+
+.icon-ejoshopcomments:before {
+	content: "\e60a";
+}
+.icon-ejoshopconfig:before {
+	content: "\e610";
+}
+.icon-mapyandexdoc:before {
+	content: "\e609";
+}
+.icon-ejoshopanalytics:before {
+	content: "\e612";
+}
+
+.icon-ejoshopallgalleries:before {
+	content: "\e60d";
+}
+.icon-ejoshoptaxes:before {
+	content: "\e618";
+}
+.icon-mapyandexmarker:before {
+	content: "\e614";
+}
+.icon-closeorder:before {
+	content: "\e614";
 }

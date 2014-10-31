@@ -195,7 +195,7 @@ var $_metka;
 			."', ".$db->quoteName('height_map_yandex')." = '".$data['height_map_yandex']
 			."', ".$db->quoteName('oblako_width_map_yandex')." = '".$data['oblako_width_map_yandex']
 			."', ".$db->quoteName('yandexbutton')." = '".$data['yandexbutton']
-			."', ".$db->quoteName('color_map_yandex')." = '".$data['color_map_yandex']
+			."', ".$db->quoteName('color_map_yandex')." = '".$data['text_map_yandex']['color_map_yandex']
 			."', ".$db->quoteName('bradius')." = '".$data['bradius']
 			."', ".$db->quoteName('center_map_yandex')." = '".$data['center_map_yandex']
 			."', ".$db->quoteName('yandexborder')." = '".$data['yandexborder']

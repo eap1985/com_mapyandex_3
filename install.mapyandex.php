@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 3.0
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -18,7 +18,7 @@ function com_install()
 	
 
 ?>
-<div class="header"><p>Поздравляю Вы установили компонент "Яндекс карт" от сайта slyweb.ru!</p></div>
+<p>Поздравляю Вы установили компонент "Яндекс карт" от сайта slyweb.ru!</p>
 <p>
 Компонент "Яндекс карты" упрощает размещение на ваших сайтах карт от яндекс. При этом доступны многие настройки карты, - цвет, размер, элементы управления и т.д.
 Последнии версии компонента Вы можете получить на сайте <a target="_blank" href="http://slyweb.ru/yandexmap/">slyweb.ru</a>.</p>

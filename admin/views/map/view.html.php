@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view' );
 
 /**
- * Hello View
+ * MapYandexViewMap View
  *
  * @package    Joomla.Tutorials
  * @subpackage Components
@@ -53,8 +53,8 @@ class MapYandexViewMap extends JViewLegacy
 
 
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_NAMECOMPONENT' ), 'mapyandexe' );
-		JToolBarHelper::apply('map.apply', 'JTOOLBAR_APPLY');
-		JToolBarHelper::save('map.save', 'JTOOLBAR_SAVE');
+		JToolBarHelper::apply('apply', 'JTOOLBAR_APPLY');
+		JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
 		if ($isNew)  {
 			JToolBarHelper::cancel();
 		} else {
@@ -63,7 +63,7 @@ class MapYandexViewMap extends JViewLegacy
 		}
 
 		$this->foobar = $this->get('Foobar');
-
+		$this->form->bind($this->foobar);
 
 		$this->assignRef( 'tmpl', $tmpl );
 		

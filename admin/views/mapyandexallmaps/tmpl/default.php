@@ -17,25 +17,24 @@ JHtml::_('formbehavior.chosen', 'select');
 </div>
 <div id="j-main-container" class="span10">
 <div class="adminform">
-<div class="pga-cpanel-left">
+
 	<div id="cpanel">
 	
-	<fieldset id="filter-bar">
-		<div class="filter-search btn-group pull-left">
-			<label class="element-invisible" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MAPYANDEX_SEARCH_IN_TITLE'); ?>" />
-			</div>
-			<div class="btn-group pull-left hidden-phone">
-		<button class="btn tip hasTooltip" type="submit" title="<?php JText::_($txtFs);?>"><i class="icon-search"></i></button>
-		<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();"
-		 title="<?php JText::_($txtFc);?>"><i class="icon-remove"></i></button>
-		</div>
-
-		<div class="btn-group pull-right hidden-phone">
-			<?php echo $this->pageNav->getLimitBox(); ?>
-		</div>
+		<div class="clearfix">
 		
-	</fieldset>
+		<div class="js-stools-container-bar">
+			<div class="btn-wrapper input-append">
+				<input type="text" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" value="<?php echo $this->state->get('filter.search');?>" id="filter_search" name="filter_search">			
+				<button title="" class="btn hasTooltip" type="submit" data-original-title="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>">
+					<i class="icon-search"></i>
+				</button>
+			</div>
+			<div class="btn-wrapper">
+				<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+				<button type="button" class="btn" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			</div>
+		</div>
+		</div>
 <div id="editcell">
     <table class="table table-striped">
     <thead>
@@ -73,6 +72,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	
     for ($i=0, $n=count( $this->foobar ); $i < $n; $i++)
     {
+
         $row = $this->foobar[$i];
         $checked    = JHTML::_( 'grid.id', $i, $row->id );
 		if($row->map_type == 'calculator') {
@@ -140,11 +140,12 @@ JHtml::_('formbehavior.chosen', 'select');
 
 </div>
  </div>
- </div>
+
  </div>
  </div>
 <input type="hidden" name="option" value="com_mapyandex" />
 <input type="hidden" name="task" value="" />
+<input type="hidden" name="view" value="mapyandexallmaps" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="controller" value="mapyandexallmaps" />
 

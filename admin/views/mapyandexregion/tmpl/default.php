@@ -10,7 +10,7 @@ JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
-<p><?php JFactory::getApplication()->enqueueMessage(JText::_('COM_MAPYANDEX_SELECT_REGION'));?></p>
+
 <form action="<?php JRoute::_('index.php?option=com_mapyandex'); ?>" method="post" name="adminForm">
 	<div id="j-sidebar-container" class="span2">
 <?php echo JHtmlSidebar::render(); ?>
@@ -104,7 +104,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="controller" value="mapyandexallmaps" />
-
+<input type="hidden" name="view" value="mapyandexregion" />
 <?php echo JHtml::_('form.token'); ?>
 </form>
 

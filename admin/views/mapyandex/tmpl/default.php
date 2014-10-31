@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die('Restricted access');?>
 
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post" id="adminForm" name="adminForm">
 <div id="j-sidebar-container" class="span2">
 <?php echo JHtmlSidebar::render(); ?>
 </div>
@@ -77,7 +77,7 @@
 </div>
 
 </div>
-
+<input type="hidden" name="task" value="" />
 <input type="hidden" name="option" value="com_mapyandex" />
 <input type="hidden" name="view" value="mapyandexcp" />
 <?php echo JHtml::_('form.token'); ?>

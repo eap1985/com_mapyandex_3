@@ -8,7 +8,7 @@
 
 // No direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.application.component.controller' );
+jimport('joomla.application.component.controller');
 
 class MapYandexControllerMapYandexAllMaps extends MapYandexController
 {
@@ -90,7 +90,7 @@ class MapYandexControllerMapYandexAllMaps extends MapYandexController
 
 	function apply()
 	{
-	
+
 		$model = $this->getModel('map');
 		
 		if ($model->store($post)) {

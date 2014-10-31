@@ -21,7 +21,7 @@ class MapYandexViewMapyandexajax extends JViewLegacy
 		JToolBarHelper::title(   JText::_( 'INSTRUCTION' ), 'mapyandexdoc' );
 		
 		$params = JComponentHelper::getParams( 'com_mapyandex' );
-
+				
 		
 		parent::display($tpl);
 	}

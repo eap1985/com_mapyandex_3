@@ -18,7 +18,7 @@ $script ='
 	
 			var form = document.adminForm;
 			
-			if (task == "mapyandexallmaps.cancel") {
+			if (task == "cancel") {
 				submitform( task );
 				return;
 			}
@@ -26,10 +26,10 @@ $script ='
 			if (form.name_map_yandex.value == "") {
 				alert( "'.JText::_( "COM_MAPYANDEX_ERROR_NAME_MAP", true ).'" );
 			}
-			else if (form.city_map_yandex.value == "") {
+			else if (form.city_map_yandex.value == "" && form.yandexcoord.value != 2) {
 				alert( "'.JText::_( "COM_MAPYANDEX_ERROR_CITY", true ).'" );
 			
-			} else if (form.street_map_yandex.value == "") {
+			} else if (form.street_map_yandex.value == ""  && form.yandexcoord.value != 2) {
 				alert( "'.JText::_( "COM_MAPYANDEX_ERROR_STREET", true ).'" );
 			}
 			else {
@@ -39,28 +39,19 @@ $script ='
 ';
 $document->addScriptDeclaration($script);
 ?>
-  	<form action="index.php" method="post" name="adminForm" id="adminForm">	
+<form action="index.php" method="post" name="adminForm" id="adminForm">	
 
+<?php 
 
-
-
-
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');
-	$lineika = '';
-	$minimap = '';
-	$sputnik = '';
-	$search = '';
-	$scale = '';
-	$styleel = '';
-	$stylecoo = '';
-	$stylead = '';
-	$stylead = '';
-	$element = '';
+$lineika = '';
+$minimap = '';
+$sputnik = '';
+$search = '';
+$scale = '';
+$styleel = '';
+$stylecoo = '';
+$stylead = '';
+$element = '';
 
 
 		if (!empty($this->foobar->id_map_yandex)) {
@@ -521,8 +512,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			</td>
 			<td align="left">
-			<div id="colorSelector"><div style="background-color: #<?php echo $this->foobar->color_map_yandex;?>"></div>
-			<input type="text" name="color_map_yandex" value="" style="margin-left: 50px;">
+				<?php echo $this->form->getInput('color_map_yandex'); ?>
 			</td>
 
 		</tr>
@@ -571,6 +561,7 @@ $document->addScriptDeclaration($script);
 
 <input type="hidden" name="option" value="com_mapyandex" /> 
 <input type="hidden" name="id" value="" />
+<input type="hidden" name="view" value="mapyandexallmaps" />
 <input type="hidden" name="task" value="savenew" />
 <input type="hidden" name="controller" value="mapyandexallmaps" />
 </form>

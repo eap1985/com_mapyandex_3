@@ -16,13 +16,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<?php $document = JFactory::getDocument();?>
 
 
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/colorpicker.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/media/com_mapyandex/colorpicker/css/layout.css');?>
-	<?php $document->addStyleSheet(JURI::root(true).'/administrator/components/com_mapyandex/assets/mapyandex.css');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/colorpicker.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/eye.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/utils.js');?>
-	<?php $document->addScript(JURI::root(true).'/media/com_mapyandex/colorpicker/js/layout.js?ver=1.0.2');
+<?php
 	$lineika = '';
 	$minimap = '';
 	$sputnik = '';
@@ -625,6 +619,7 @@ $document->addScriptDeclaration($scriptjs);
 <input type="hidden" name="option" value="com_mapyandex" />
 <input type="hidden" name="id" value="" />
 <input type="hidden" name="task" value="savenew" />
+<input type="hidden" name="view" value="mapyandexmetki" />
 <input type="hidden" name="controller" value="mapyandexmetki" />
 </form>		
 

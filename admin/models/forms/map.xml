@@ -17,6 +17,9 @@
 
 			default=""
 		/>
+			<field name="color_map_yandex" type="color" default="#eee"
+				label="COM_GYMAP_YMCOLORBORDER"
+				description="COM_GYMAP_YMCOLORBORDER" />
 		</fieldset>
 		
 	<fieldset name="map_settings" label="COM_MAPYANDEX_BALOON" >

@@ -1,6 +1,6 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.x
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
@@ -218,7 +218,7 @@ var $_metka;
 	
 
 		$el = json_encode($data['name_region_yandex']);
-		$style = json_encode(array($data['jform']['map_region_opacity'],$data['color_map_region']));
+		$style = json_encode(array($data['jform']['map_region_opacity'],$data['jform']['color_map_region']));
 
 		// Store the web link table to the database
 			$db = $this->getDBO();
