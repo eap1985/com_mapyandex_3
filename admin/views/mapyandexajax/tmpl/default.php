@@ -8,18 +8,20 @@
  defined('_JEXEC') or die('Restricted access');
 
 
-
-
 	$document	=  JFactory::getDocument();
-	$document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&lang=ru-RU');
+	$document->addScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey='.$this->params->get('key'));
 
-	
 ?>
-<script xmlns:str="http://exslt.org/strings" type="text/javascript"><!--
+   
+
+<script type="text/javascript">
             var map, placemark;
             
             window.onload = function init () {
-			ymaps.geocode(37.609218,55.753559, {results: 100}).then(function (res) {
+				
+			ymaps.geocode("Moscow", {results: 100}).then(function (res) {
+				//console.log( 123);
+				//console.log( res.geoObjects.get(0));
 				map = new ymaps.Map("YMapsID", {
 					// Центр карты
 					center: res.geoObjects.get(0).geometry.getCoordinates(),
@@ -38,7 +40,7 @@
 						}, {
 							// Опции
 							// Иконка метки будет растягиваться под ее контент
-							preset: 'twirl#blueStretchyIcon'
+							preset: 'islands#blueStretchyIcon'
 						});
 						
 				map.geoObjects.add(startPlacemark);
@@ -47,12 +49,9 @@
             });
             
 
-            
-
 			}
 			
 
-			
 			function showAddress (value) {
 				ymaps.geocode(value, {results: 100}).then(
 	
@@ -79,7 +78,7 @@
                     
                 );
             }
-            --></script>
+</script>
 
 <div>
   <form action="#" onsubmit="showAddress(this.address.value);return false;">

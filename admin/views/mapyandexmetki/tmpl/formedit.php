@@ -184,7 +184,21 @@ echo '<div class="tab-pane active" id="general">'."\n";
 				</div>
 			</div>
 			
-			
+			<div class="control-group">
+				<div class="control-label">
+						<?php echo JText::_( 'COM_MAPYANDEX_MARKER_BALOON' ); ?>:
+				</div>
+				<div class="controls">
+			<?php 
+
+				$baloon = array();
+				$baloon[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_MARKER_BALOON' ));
+				$baloon[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_MARKER_BALOON_NOT' ));
+
+				echo JHTML::_('select.genericlist',  $baloon, $name = 'baloon', $attribs = 'autocomplete="off"', $key = 'value', $text = 'text', $selected = $wih[1], $idtag = false, $translate = false );
+			?>
+				</div>
+			</div>		
 
 					<div class="control-group">
 				<div class="control-label">
@@ -237,7 +251,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 					 <?php
 					// define modal options
 					$modalOptions = array (
-					'size' => array('x' => 500, 'y' => 500)
+					'size' => array('x' => 700, 'y' => 700)
 					
 					);
 					// load modal JavaScript
@@ -255,7 +269,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 			</div>
 		
 
-					<div class="control-group dispcoords" <?php echo $stylecoo;?>>
+			<div class="control-group dispcoords" <?php echo $stylecoo;?>>
 				<div class="control-label">
 					<?php echo JText::_( 'COM_MAPYANDEX_LNG' ); ?>
 				</div>
@@ -391,26 +405,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 
 //Иконки и дизайн маркера
 
-		echo '<table cellspacing="3" cellpadding="0" border="0" style="background-color:white" class="table"><tbody><tr valign="top">
-        <td align="center" width="" colname="col1">
-          <b>Вид значка</b>
-        </td>
-        <td align="center" width="" colname="col2">
-        
-        </td>
-        <td align="center" width="" colname="col3">
-          <b>Вид значка</b>
-        </td>
-        <td align="center" width="" colname="col4">
-       
-        </td>
-        <td align="center" width="" colname="col5">
-          <b>Вид значка</b>
-        </td>
-        <td align="center" width="" colname="col6">
-      
-        </td>
-      </tr>';
+		echo '<table cellspacing="3" cellpadding="0" border="0" style="background-color:white" class="table"><tbody>';
 $option = array(
 		0 => 'lightblueSmallPoint', 1 => 'whiteSmallPoint', 2 => 'greenSmallPoint', 3 => 'redSmallPoint', 4 => 'yellowSmallPoint', 
 		5 => 'darkblueSmallPoint', 6 => 'nightSmallPoint', 7 => 'greySmallPoint', 8 => 'blueSmallPoint', 9 => 'orangeSmallPoint',
@@ -430,44 +425,41 @@ $option = array(
 
 
 
+$this->editmarker->deficon = str_replace('Old','',$this->editmarker->deficon);
+
 for($i=0; $i<count($option); $i++) {
 
-if(($i % 3)==0) {
+if(($i % 10)==0) {
 	echo '<tr valign="top">';
 	}
-    echo '<td align="center" width="" colname="col1">';
+$s = '';
+if($option[$i]==$this->editmarker->deficon) {
+	$s  = 'style="border-color:red;border:2px dotted red;" ';
+}
+    echo '<td align="center" '.$s.' colname="col1">';
 	echo JHTML::_('image', 'administrator/components/com_mapyandex/assets/images/deficon/'.$option[$i].'.png','','style="width:19px; height:20px; margin-bottom: 3px;"');
 	
 	echo '</td>';
 if($option[$i]==$this->editmarker->deficon) {
-	echo '<td align="center" width="" colname="col2"><input type="radio" checked value="'.$option[$i].'" id="deficon0" name="deficon" class="text_area"></td>'; 
+	echo '<td align="center" width="" style="border-color:red;border:2px dotted red;border-left:none;" colname="col2"><input type="radio" checked value="'.$option[$i].'Old" id="deficon0" name="deficon" class="text_area"></td>'; 
 }
 else {
-	echo '<td align="center" width="" colname="col2"><input type="radio" value="'.$option[$i].'" id="deficon0" name="deficon" class="text_area"></td>'; 
+	echo '<td align="center" width="" colname="col2"><input type="radio" value="'.$option[$i].'Old" id="deficon0" name="deficon" class="text_area"></td>'; 
+	//Old - старый стиль отображается как изображение
 }
-  
+}
 
 
-	}
-
-		
-
-		
 echo '</tr><tr valign="top">
         <td align="center" width="" colname="col1">
          
         </td>
-        <td align="center" width="" colname="col2"></td>
+        <td  colname="col2"></td>
         <td width="" colname="col3"></td>
         <td width="" colname="col4"></td>
         <td width="" colname="col5"></td>
         <td width="" colname="col6"></td>
       </tr></tbody></table>';
-
-	  
-	  
-	  
-			
 
 	  
 echo '<h3>Значки для меток с текстом и изображениями</h3>';
@@ -484,15 +476,24 @@ $option = array(
 
 for($i=0; $i<count($option); $i++) {
 
-if(($i % 3)==0) {
+if(!preg_match('@Stretchy@s',$option[$i],$m) && preg_match('@Old@s',$option[$i],$m)) {
+	
+}
+
+
+if(($i % 10)==0) {
 	echo '<tr valign="top">';
 	}
-    echo '<td align="center" width="" colname="col1">';
+$s = '';	
+if($option[$i]==$this->editmarker->deficon) {
+	$s  = 'style="border-color:red;border:2px dotted red;" ';
+}
+    echo '<td '.$s.' align="center" width="" colname="col1">';
 	echo JHTML::_('image', 'administrator/components/com_mapyandex/assets/images/deficon/'.$option[$i].'.png','','style="width:78px; height:40px; margin-bottom: 3px;"');
 	
 	echo '</td>';
 if($option[$i]==$this->editmarker->deficon) {
-	echo '<td align="center" width="" colname="col2"><input type="radio" checked value="'.$option[$i].'" class="deficon" name="deficon"></td>'; 
+	echo '<td align="center" width="" style="border-color:red;border:2px dotted red;border-left:none;" colname="col2"><input type="radio" checked value="'.$option[$i].'" class="deficon" name="deficon"></td>'; 
 }
 else {
 	echo '<td align="center" width="" colname="col2"><input type="radio" value="'.$option[$i].'" class="deficon" name="deficon"></td>'; 
@@ -524,6 +525,54 @@ echo '</tr><tr valign="top">
         <td width="" colname="col6"></td>
       </tr></tbody></table>';
 
+
+echo '<h3>дополнительные значки в которые не рекомендуется вставлять изображения</h3>';
+		echo '<table cellspacing="3" cellpadding="0" border="0" style="background-color:white" class="table">
+		<tbody>';
+$option = array(
+		0 => 'blueAirportIcon', 1 => 'blueAttentionIcon', 2 => 'blueAutoIcon', 3 => 'blueBarIcon', 4 => 'blueBarberIcon', 
+		5 => 'blueBeachIcon', 6 => 'blueBicycleIcon', 7 => 'blueBicycle2Icon', 8 => 'blueBookIcon', 9 => 'blueCarWashIcon',
+		10 => 'blueChristianIcon', 11 => 'blueCinemaIcon', 12 => 'blueCircusIcon', 13 => 'blueCourtIcon', 14 => 'blueDeliveryIcon',
+		15 => 'blueDiscountIcon', 16 => 'blueDogIcon', 17 => 'blueEducationIcon', 18 => 'blueEntertainmentCenterIcon', 19 => 'blueFactoryIcon', 20 => 'blueFamilyIcon',
+		21 => 'blueFashionIcon', 22 => 'blueFoodIcon', 23 => 'blueFuelStationIcon', 24 => 'blueFuelStationIcon', 25 => 'blueGovernmentIcon',
+		26 => 'blueHeartIcon', 27 => 'blueHomeIcon', 28 => 'blueHotelIcon', 29 => 'blueHydroIcon', 30 => 'blueInfoIcon',
+		31 => 'blueLaundryIcon', 32 => 'blueLeisureIcon', 33 => 'blueMassTransitIcon', 34 => 'blueMedicalIcon', 
+		35 => 'blueMoneyIcon', 36 => 'blueParkIcon', 37 => 'blueParkingIcon', 38 => 'bluePersonIcon', 39 => 'bluePocketIcon', 
+		40 => 'bluePoolIcon', 41 => 'bluePostIcon', 42 => 'blueRailwayIcon', 43 => 'blueRapidTransitIcon', 44 => 'blueRepairShopIcon', 45 => 'blueRunIcon', 
+		46 => 'blueScienceIcon', 47 => 'blueShoppingIcon', 48 => 'blueSouvenirsIcon', 49 => 'blueSportIcon', 50 => 'blueStarIcon',
+		51 => 'blueTheaterIcon', 52 => 'blueToiletIcon', 53 => 'blueUnderpassIcon', 54 => 'blueVegetationIcon', 55 => 'blueVideoIcon', 56 => 'blueWasteIcon', 
+		57 => 'blueWaterParkIcon', 58 => 'blueWaterwayIcon', 59 => 'blueWorshipIcon', 60 => 'blueZooIcon');
+
+
+
+for($i=0; $i<count($option); $i++) {
+
+if(($i % 10)==0) {
+	echo '<tr valign="top">';
+	}
+$s = '';	
+if($option[$i]==$this->editmarker->deficon) {
+	$s  = 'style="border-color:red;border:2px dotted red;border-right:none;" ';
+}
+    echo '<td align="center" '.$s.' colname="col1">';
+	echo JHTML::_('image', 'administrator/components/com_mapyandex/assets/images/deficon/'.$option[$i].'.png','','style="width:51px; height:62px;max-width: none; margin-bottom: 3px;"');
+	
+	echo '</td>';
+	
+	if($option[$i]==$this->editmarker->deficon) {
+		echo '<td align="center" style="border-color:red;border:2px dotted red;border-left:none;" width="" colname="col2"><input type="radio" checked value="'.$option[$i].'" class="deficon" name="deficon"></td>'; 
+	}
+	else {
+		echo '<td align="center" width="" colname="col2"><input type="radio" value="'.$option[$i].'" class="deficon" name="deficon"></td>'; 
+	}
+
+  
+
+
+	}
+
+		
+echo '</tr></tbody></table>';
 
 		
 echo '</div>';

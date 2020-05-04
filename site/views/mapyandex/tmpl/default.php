@@ -1,52 +1,58 @@
 <?php
 /*
- * @package Joomla 1.5
+ * @package Joomla 3.9.1
  * @license - http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @component Yandex Map Component
  * @copyright Copyright (C) Aleksandr Ermakov www.slyweb.ru
  */
  defined('_JEXEC') or die('Restricted access'); 
-?>
-<?php $document = JFactory::getDocument();?>
 
 
-<?php 
+$document = JFactory::getDocument();
 
-		if($this->foobar->params->get('use_jquery')) {
-			$jv = '1.7.2';
-			$document->addScript('https://ajax.googleapis.com/ajax/libs/jquery/'.$jv.'/jquery.min.js');
-			$this->here_jquery = true;
-		}
+if($this->params->get('use_jquery')) {
+	$jv = '1.7.2';
+	$document->addScript('https://ajax.googleapis.com/ajax/libs/jquery/'.$jv.'/jquery.min.js');
+	$this->here_jquery = true;
+}
+$document->addScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey='.$this->params->get('key'));
 	
+if(strpos($this->map->width_map_yandex,'%') == false) {
+	$this->map->width_map_yandex = $this->map->width_map_yandex.'px';
+	preg_match('@\d+@si',$this->map->width_map_yandex,$m);
+	$this->map->width_map_yandex = $m[0].'px';
+}
+if(strpos($this->map->height_map_yandex,'%') == false) {
+	$this->map->height_map_yandex = $this->map->height_map_yandex.'px';
+	preg_match('@\d+@si',$this->map->height_map_yandex,$m);
+	$this->map->height_map_yandex = $m[0].'px';
+}
 
-$document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&mode=debug&lang=ru-RU');?>
+if($this->map->bradius == 1) {
+	$borderradius = 'border-radius: 6px 6px 6px 6px;';
+} else {
+	$borderradius = '';
+}
 
-
-<?php
+if($this->map->yandexborder == 1) {
+	$border = 'border: 1px solid #'.$this->map->color_map_yandex.';';
+}else {
+	$border = '';
+}
+if($this->map->center_map_yandex == 1) {
+	$margin = 'margin:0 auto;';
+} else {
+	$margin = '';
+}
 	
-	if($this->foobar->bradius == 1) {
-		$borderradius = 'border-radius: 6px 6px 6px 6px;';
-	} else {
-		$borderradius = '';
-	}
-	if($this->foobar->yandexborder == 1) {
-		$border = 'border: 1px solid #'.$this->foobar->color_map_yandex.';';
-	}else {
-		$border = '';
-	}
-	if($this->foobar->center_map_yandex == 1) {
-		$margin = 'margin:0 auto;';
-	} else {
-		$margin = '';
-	}
-	
-$style = '.YMaps-b-balloon-wrap td {
+$style = '
+.YMaps-b-balloon-wrap td {
 padding:0!important;
 }
 #YMapsID {
 	margin:0; 
-	box-shadow: 4px 4px 4px #'.$this->foobar->color_map_yandex.';  
-	background: -moz-linear-gradient(center top , #'.$this->foobar->color_map_yandex.', #F1F1F1) repeat scroll 0 0 #F1F1F1;
+	box-shadow: 4px 4px 4px #'.$this->map->color_map_yandex.';  
+	background: -moz-linear-gradient(center top , #'.$this->map->color_map_yandex.', #F1F1F1) repeat scroll 0 0 #F1F1F1;
     color: #333333;
     font-weight: bold;
 	'.$borderradius.'
@@ -54,67 +60,92 @@ padding:0!important;
 	'.$margin.'
 
 	}
-	.YMaps-b-balloon-content {
-width:'.$this->foobar->oblako_width_map_yandex.'px !important;
+.YMaps-b-balloon-content {
+width:'.$this->map->oblako_width_map_yandex.'px !important;
 }	
 .imginmap {
 	margin:0 5px 0 0;
 }
-	';
+';
+
 $document->addStyleDeclaration($style);
 $metka = '';
 $metka .= 'myGeoObjects = [];';
-$userpath = $this->foobar->params->get('userpathtoimg');
+$userpath = $this->params->get('userpathtoimg');
 		
 if(empty($userpath)) {
 
 	$userpath = '/images/mapyandex/yandexmarkerimg/';
 }
 $i = -1;
+
 foreach($this->metka as $val) {
 ++$i;
-if(!empty($val->userimg)) {
-	$imgarr = json_decode($val->userimg);
+	if(!empty($val->userimg)) {
+		$imgarr = json_decode($val->userimg);
 		$startfile = '<img align="left" class="imginmap" src="'.JURI::root(true).$userpath.$imgarr->startfile.'">';
 		$smallfile = '<img align="left" class="imginmap" src="'.JURI::root(true).$userpath.$imgarr->smallfile.'">';
-} else {
-	$startfile = '';
-	$smallfile = '';
-}
+	} else {
+		$startfile = '';
+		$smallfile = '';
+	}
+	
 
-
-
-if($this->foobar->params->get('draggable_placemark')) {
+if($this->params->get('draggable_placemark')) {
 		$draggable_placemark = 'draggable: true, // Метку можно перетаскивать, зажав левую кнопку мыши.';
 }
 	
-if($this->foobar->params->get('new_placemark')) {
-			$op = '
-				{ balloonCloseButton: true, 
-				'.$draggable_placemark.'
-				preset: \'twirl#'.$val->deficon.'\'
-                }';
+if($this->params->get('new_placemark')) {
+	
+	if(preg_match('@Old@s',$val->deficon,$m)) {
+		$val->deficon = str_replace('Old','',$val->deficon);
+		$op = '
+			options = { 
+			iconLayout: \'default#image\',
+			iconImageHref: \''.JURI::root(true).'/administrator/components/com_mapyandex/assets/images/deficon/'.$val->deficon.'.png\',
+			iconImageSize: [27, 26],
+			iconImageOffset: [-3, -42]
+			}';
+	} else {
+		$op = 'options =  { 
+			balloonCloseButton: true, 
+			'.$draggable_placemark.'
+		    preset: \'islands#'.$val->deficon.'\'
+			}';
+	}
 } else {
-
-		if(!preg_match('@Stretchy@s',$val->deficon,$m)) {
-			if(!$this->foobar->params->get('new_placemark')) {
-					$smallfile = '';
-			}
-				$op = '{balloonCloseButton: true, 
-					'.$draggable_placemark.'
-                    iconImageHref: \''.JURI::base(true).'/administrator/components/com_mapyandex/assets/images/deficon/'.$val->deficon.'.png\', // картинка иконки
-					iconImageSize: [27, 26], // размеры картинки
-                    iconImageOffset: [-3, -26] // смещение картинки
-                }';
-		} else {
-			$op = '
-				{ balloonCloseButton: true, 
-				'.$draggable_placemark.'
-				preset: \'twirl#'.$val->deficon.'\'
-                }';
+	
+	if(!preg_match('@Stretchy@s',$val->deficon,$m) && !preg_match('@Old@s',$val->deficon,$m)) {
+		if(!$this->comparams->get('new_placemark')) {
+				$smallfile = '';
 		}
+			$op = '
+				options = {
+				balloonCloseButton: true, 
+				'.$draggable_placemark.'
+				iconImageHref: "'.JURI::base(true).'/administrator/components/com_mapyandex/assets/images/deficon/'.$val->deficon.'.png", // картинка иконки
+				iconImageSize: [27, 26], // размеры картинки
+				iconImageOffset: [-3, -26] // смещение картинки
+			}';
+	} else if(preg_match('@Old@s',$val->deficon,$m)) {
+		$val->deficon = str_replace('Old','',$val->deficon);
 		
-
+		$op = '
+			options = {
+		    iconLayout: \'default#image\',
+			iconImageHref: \'administrator/components/com_mapyandex/assets/images/deficon/'.$val->deficon.'.png\',
+			iconImageSize: [30, 42],
+			iconImageOffset: [-3, -42]
+			}';
+	} else {
+		$op = '
+			options = {
+			opacity: 0.5, 
+			balloonCloseButton: true, 
+			'.$draggable_placemark.'
+			preset: \'islands#'.$val->deficon.'\'
+			}';
+	}
 }
 	//size of marker
 	$wih = json_decode($val->wih);
@@ -127,106 +158,59 @@ if($this->foobar->params->get('new_placemark')) {
 	} else {
 		$forstrchmarkertext = '';
 	}
-
-	if($val->yandexcoord == 1) {
-
-				
-
-		$metka .= '
-					/* После того, как поиск вернул результат, вызывается*/
-    ymaps.geocode(\''.$val->city_map_yandex.', '.$val->street_map_yandex.'\', {results: 100}).then(function (res) {
-                    
-	var point = res.geoObjects.get(0).geometry.getCoordinates();
-
+	if(preg_match('@Old@s',$val->deficon,$m)) $startfile = '';
+	
+	$before_metka = '
 	var properties = {
-        balloonContent: "'.addslashes($startfile).'<br />'.addslashes($val->misil).'",
-				iconContent: "<div>'.addslashes($smallfile).'<div style=\"width:'.$wih[0].'px;height:'.$wih[1].'px;\">'.$forstrchmarkertext.'</div></div>",
-        hintContent: "<div>'.addslashes($startfile).addslashes($val->misilonclick).'</div>"
-
-    }
+        balloonContent: "'.addslashes($startfile).JHtmlString::truncate(addslashes($val->misil),15).'",
+		iconContent: "<div>'.JHtmlString::truncate(addslashes($val->misil),25).'</div>",
+        hintContent: "<div>'.JHtmlString::truncate(addslashes($val->misilonclick),25).'</div>",
+    },
+	'.$op.'';
 	
-    //placemark = new ymaps.Placemark(point, properties, options);
-
-	//map.geoObjects.add(placemark);1
-
-
-			myGeoObject = new ymaps.GeoObject({
-				// Описываем геометрию типа "Точка".
-				geometry: {
-					type: "Point",
-					coordinates: point
-				},
-				// Описываем данные геообъекта.
-				properties: properties
-			}, 
-				'.$op.'
-			);
-		// Добавляем геообъект на карту.
-		map.geoObjects.add(myGeoObject);
-
-	
+	if($val->yandexcoord == 1) {
+		$metka .= '
+		ymaps.geocode(\''.$val->city_map_yandex.', '.$val->street_map_yandex.'\', {results: 100}).then(function (res) {
+        /* После того, как поиск вернул результат, вызывается*/       
+		var point = res.geoObjects.get(0).geometry.getCoordinates();
+		'.$before_metka.'
+		placemark = new ymaps.Placemark(point, properties, options);
+		map.geoObjects.add(placemark);
 		});	';
 		
 	} else {
 
 		$lng = json_decode($val->lng);
-		
 		$metka .= '
-	var properties = {
-        balloonContent: "'.addslashes($startfile).'<br />'.addslashes($val->misil).'",
-		iconContent: "<div>'.addslashes($smallfile).'<div style=\"width:'.$wih[0].'px;height:'.$wih[1].'px;\">'.$forstrchmarkertext.'</div></div>",
-        hintContent: "<div>'.addslashes($startfile).addslashes($val->misilonclick).'</div>"
-
-
-    },
-	
-   // placemark = new ymaps.Placemark(['.$lng->latitude_map_yandex.', '.$lng->longitude_map_yandex.'], properties, options);
-
-	//map.geoObjects.add(placemark);2
-			myGeoObject = new ymaps.GeoObject({
-				// Описываем геометрию типа "Точка".
-				geometry: {
-					type: "Point",
-					coordinates: ['.$lng->latitude_map_yandex.', '.$lng->longitude_map_yandex.']
-				},
-				// Описываем данные геообъекта.
-				properties: properties
-			}, 
-				'.$op.'
-			);
-		// Добавляем геообъект на карту.
-		map.geoObjects.add(myGeoObject);
-			';
+		'.$before_metka.'
+		placemark = new ymaps.Placemark(['.$lng->latitude_map_yandex.', '.$lng->longitude_map_yandex.'], properties, options);
+		map.geoObjects.add(placemark);';
 	}
-	
-
-	
 }
-
 
 $textarray = '';
 $textarrayonput = ''; 
-$route = json_decode($this->foobar->route_map_yandex);
+$route = json_decode($this->map->route_map_yandex);
 $ymaproute = '';
 
 
 $ymaproute = $this->addRouteToMap($route);
 
-($this->foobar->map_baloon_autopan) ? $autopan = 'true' : $autopan = 'false';  
-($this->foobar->map_centering) ? $map_centering = 'true' : $map_centering = 'false'; 
-if(!$this->foobar->map_baloon_or_placemark) {
+($this->map->map_baloon_autopan) ? $autopan = 'true' : $autopan = 'false';  
+($this->map->map_centering) ? $map_centering = 'true' : $map_centering = 'false'; 
+if(!$this->map->map_baloon_or_placemark) {
 
 	$balloonorplacemark = 'startPlacemark = new ymaps.Placemark(point, {
 							// Свойства
 							// Текст метки
-							iconContent: \''.addslashes($this->foobar->misil).'\',
-							hintContent: "<div>'.addslashes($this->foobar->misilonclick).'</div>",
-							balloonContentHeader: "<div>'.addslashes($this->foobar->misilonclick).'</div>"
+							iconContent: \''.addslashes($this->map->misil).'\',
+							hintContent: "<div>'.addslashes($this->map->misilonclick).'</div>",
+							balloonContentHeader: "<div>'.addslashes($this->map->misilonclick).'</div>"
              
 						}, {
 							// Опции
 							// Иконка метки будет растягиваться под ее контент
-							preset: \'twirl#blueStretchyIcon\'
+							preset: \'islands#blueStretchyIcon\'
 						});
 						map.geoObjects.add(startPlacemark);';
 
@@ -237,97 +221,91 @@ if(!$this->foobar->map_baloon_or_placemark) {
 						point, {
 							/* Свойства балуна:
 							   - контент балуна */
-							content: \''.addslashes($this->foobar->misil).'\'
+							content: \''.addslashes($this->map->misil).'\'
 						}, {
 							/* Опции балуна:
 							   - балун имеет копку закрытия */ 
 							closeButton: true,
-							minWidth: '.$this->foobar->map_baloon_minwidth.',
-							minHeight: '.$this->foobar->map_baloon_minheight.',
+							minWidth: '.$this->map->map_baloon_minwidth.',
+							minHeight: '.$this->map->map_baloon_minheight.',
 							autoPan: '.$map_centering.',
-							autoPanDuration: '.$this->foobar->map_baloon_autopanduration.'
+							autoPanDuration: '.$this->map->map_baloon_autopanduration.'
 						}
 					);';
 
 }
-?>
 
-<?php
-if ($this->foobar->where_text == 2) {
-	echo $this->foobar->text_map_yandex;
+if ($this->map->where_text == 2) {
+	echo $this->map->text_map_yandex;
 }
 
 
-if($this->foobar->yandexcoord == 1) {
+if($this->map->yandexcoord == 1) {
 	$stylecoo='style="display:none;"';
-	$valone = 'var valone = "'.$this->foobar->city_map_yandex.', '.$this->foobar->street_map_yandex.'"';
+	$valone = 'var valone = "'.$this->map->city_map_yandex.', '.$this->map->street_map_yandex.'"';
 } else {
 	$stylead = 'style="display:none;"';
-	$parsejson = json_decode($this->foobar->lng);
+	$parsejson = json_decode($this->map->lng);
 	$lang = $parsejson->longitude_map_yandex;
 	$lat = $parsejson->latitude_map_yandex;
 	$valone = 'var valone = "'.$lat.', '.$lang.'"';
 }
-$autozoom = 'var autozoom = '.$this->foobar->autozoom.';';
-if($this->foobar->autozoom) {
+$autozoom = 'var autozoom = '.$this->map->autozoom.';';
+if($this->map->autozoom) {
 	$autozoomflag = 10;
 } else {
-	$autozoomflag = $this->foobar->yandexzoom;
+	$autozoomflag = $this->map->yandexzoom;
 }
-	$el = json_decode($this->foobar->yandexel);
-	$lineika = '';
-	$minimap = '';
-	$sputnik = '';
-	$search	 = '';
-	$scale 	 = '';
-	
+	$el = json_decode($this->map->yandexel);
+
+
 	if($el) {
 	
 			if(in_array(1,$el)) {
-			$lineika = '.add("mapTools")';
+			$trafficControl = '"trafficControl",';
 		}
 			if(in_array(2,$el)) {
-			$minimap = '.add("miniMap")';
+			$geolocationControl = '"geolocationControl",';
 		}
 			if(in_array(3,$el)) {
-			$sputnik = '.add("typeSelector")';
+			$sputnik = '"typeSelector",';
 		}
 			if(in_array(4,$el)) {
-			$search = '.add("searchControl")';
+			$search = '"searchControl",';
 		}
 			if(in_array(5,$el)) {
-			$scale = '.add("zoomControl")';
+			$scale = '"zoomControl",';
 		}
 	} else {
 
-		$lineika = '.add("mapTools")';
-		$minimap = '.add("miniMap")';
-		$sputnik = '.add("typeSelector")';
-		$search	 = '.add("searchControl")';
-		$scale 	 = '.add("zoomControl")';
+		$trafficControl = '"trafficControl",';
+		$geolocationControl = '"geolocationControl",';
+		$sputnik = '"typeSelector",';
+		$search	 = '"searchControl",';
+		$scale 	 = '"zoomControl",';
 	}
-	(!empty($this->foobar->map_type) && $this->foobar->map_type == 'calculator') ? $this->foobar->map_type = 'calculator' : $this->foobar->map_type = 'map';
-			
-
-		if($this->foobar->yandexbutton == 1 || $this->foobar->map_type =='calculator'){
-			$element = "
+	
+	if($this->map->yandexbutton == 1 || $this->map->map_type =='calculator'){
+	$element = "
 			// Добавление элементов управления
-			".$sputnik."
-			".$lineika."
-			
-			".$minimap." 
+            ".$trafficControl."
+            ".$geolocationControl ."
+			".$sputnik." 
 			".$scale."
 			".$search."";
 	}
+	
+(!empty($this->map->map_type) && $this->map->map_type == 'calculator') ? $this->map->map_type = 'calculator' : $this->map->map_type = 'map';
+			
 
 $textarray = '';
 $textarrayonput = ''; 
-$region = json_decode($this->foobar->region_map_yandex);
+$region = json_decode($this->map->region_map_yandex);
 
 $map_region_style = array();
 $map_region_style[1] = '#0000FF';
 $region_border_color = '#FFFF00';
-$map_region_style = json_decode($this->foobar->map_region_style);
+$map_region_style = json_decode($this->map->map_region_style);
 if(!is_array($map_region_style) || empty($map_region_style)) {
 $styleoption = '											
 		strokeWidth: 6,
@@ -354,7 +332,7 @@ myGeoobject = [];';
 	$gi++;
 				$textbefore = 'Регион № '.$gi;
 				  
-				  $textarrayonput  .= '<li class="ui-state-default"><div width="100" align="left" class="key"><label for="foobar">'.$textbefore.'</label></div><div width="100" align="left"><input type="text" class="acpro_inp_'.($gi+1).' newroute" name="name_region_yandex[]" size="100" value="'.$val.'" /></div><div class="imgdeleteroute" rel="'.($gi+1).'" data-region="'.$this->foobar->id.'">'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/iconfalse.png', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' )).'</div><div>'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/icon-loading2.gif', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' ),array('class'=>'imgyandexmaploader')).'</div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>';
+				  $textarrayonput  .= '<li class="ui-state-default"><div width="100" align="left" class="key"><label for="foobar">'.$textbefore.'</label></div><div width="100" align="left"><input type="text" class="acpro_inp_'.($gi+1).' newroute" name="name_region_yandex[]" size="100" value="'.$val.'" /></div><div class="imgdeleteroute" rel="'.($gi+1).'" data-region="'.$this->map->id.'">'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/iconfalse.png', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' )).'</div><div>'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/icon-loading2.gif', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' ),array('class'=>'imgyandexmaploader')).'</div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>';
 					
 					if($textarray != '') {
 						$textarray = substr($textarray, 0, -1);
@@ -413,12 +391,11 @@ myGeoobject = [];';
 	
 }	
 
-$settings = json_decode($this->foobar->map_calculator_settings);
-$defaultmap = ($this->foobar->defaultmap) ? $this->foobar->defaultmap : 'publicMap';
-
+$settings = json_decode($this->map->map_calculator_settings);
+$defaultmap = ($this->map->defaultmap) ? $this->map->defaultmap : 'publicMap';
 
 	
-if($this->foobar->map_type =='map'){
+if($this->map->map_type =='map'){
 $script ='	
 ymaps.ready(function () { 
 	
@@ -442,13 +419,13 @@ ymaps.ready(function () {
 					center: res.geoObjects.get(0).geometry.getCoordinates(),
 					// Коэффициент масштабирования
 					zoom: '.$autozoomflag.',
-					type: "yandex#'.$defaultmap.'"
-					
+					type: "yandex#'.$defaultmap.'",
+					controls: ['.$element.']
 				});
 			
 				if(autozoom) {
 
-					map.setCenter(point, '.$this->foobar->yandexzoom.', {
+					map.setCenter(point, '.$this->map->yandexzoom.', {
 						checkZoomRange: true,
 						duration: 1000,
 						callback: function(){
@@ -464,7 +441,7 @@ ymaps.ready(function () {
 					point)
 					.then(function (zoomRange, err) {
 					
-					var userzoom = '.$this->foobar->yandexzoom.';
+					var userzoom = '.$this->map->yandexzoom.';
 						if (!err) {
 						
 							// zoomRange[0] - минимальный масштаб
@@ -545,14 +522,11 @@ ymaps.ready(function () {
 								}, {
 									// Опции
 									// Иконка метки будет растягиваться под ее контент
-									preset: "twirl#"+icon
+									preset: "islands#"+icon
 								});
 								map.geoObjects.add(myPlacemark);
 							});
-		
 
-				
-							
 						},
 						error:function(){
 					
@@ -570,13 +544,11 @@ ymaps.ready(function () {
       
            // Добавление стандартного набора кнопок
 			map.controls
-			'.$element.'
 		
 			'.$ymaproute.'
 			'.$ymapregion.'
             });
-		
-			
+				
 });
 ';
 } else {
@@ -595,8 +567,9 @@ ymaps.ready(function () {
 		$cuurentcytext = 'гривны';
 		break;
 	}
+	
 	$script ='	
-	ymaps.ready(function () { 
+	ymaps.ready(function () {
 	
 			var map;
 			'.$valone.'
@@ -624,14 +597,6 @@ ymaps.ready(function () {
 				$j = jQuery.noConflict();
 				calculator = new DeliveryCalculator(map, point);
 				
- 
-
-
-      
-           // Добавление стандартного набора кнопок
-			map.controls
-			'.$element.'
-			
                 });
 			
 			
@@ -648,7 +613,7 @@ ymaps.ready(function () {
 				var ptp = DeliveryCalculator.prototype;
 			 
 				ptp._onClick = function (e) {
-					var position = e.get(\'coordPosition\');
+					var position = e.get(\'coords\');
 					$j(\'#deletemenu\').remove();
 					
 					if(!this._start) {
@@ -781,27 +746,19 @@ ymaps.ready(function () {
 			 
 					return cost < min && min || cost;
 				};
-			 
-
-
-
 ';
 }
 
 ?>
- <div id="YMapsID" style="height:<?php echo $this->foobar->height_map_yandex;?>px; width:<?php echo $this->foobar->width_map_yandex;?>px;"></div>
+ <div id="YMapsID" style="height:<?php echo $this->map->height_map_yandex;?>; width:<?php echo $this->map->width_map_yandex;?>;"></div>
 
- <div style="width:<?php echo $this->foobar->width_map_yandex;?>px;<?php echo $margin;?>;text-align:right;margin-top:5px;clear:both; font-size:10px;"><a title="Яндекс карты для Joomla" href="http://slyweb.ru/yandexmap/">Яндекс карты для Joomla</a></div>
+ <div style="width:<?php echo $this->map->width_map_yandex;?>;<?php echo $margin;?>;text-align:right;margin-top:5px;clear:both; font-size:10px;"><a title="Яндекс карты для Joomla" href="http://slyweb.ru/yandexmap/">Яндекс карты для Joomla</a></div>
  
 <?php	
 $document->addScriptDeclaration($script);
 $user = JFactory::getUser(); // it's important to set the "0" otherwise your admin user information will be loaded
-
 $document->addStyleSheet(JURI::root(true).'/administrator/components/com_mapyandex/assets/mapyandex.css');
-
-if(($user->id > 0 && $this->foobar->map_settings_user_all == 2) || ($this->foobar->map_settings_user_all == 1)) {
-
-
+if(($user->id > 0 && $this->map->map_settings_user_all == 2) || ($this->map->map_settings_user_all == 1)) {
 ?>
 <div class="mapconteiner">
 <style>
@@ -1044,10 +1001,7 @@ $j(function(){
 $document->addScriptDeclaration($script);
 ?>
 
-
-
-
- <div class="clrline"></div>	
+<div class="clrline"></div>	
  <div class="col100">
 	<fieldset class="adminform">
 		<h3><?php echo JText::_( 'COM_MAPYANDEX_NEWYMAR' ); ?></h3>
@@ -1057,8 +1011,6 @@ $document->addScriptDeclaration($script);
 						<?php echo JText::_( 'COM_MAPYANDEX_NAMEMARKER' ); ?>:
 					</label></dt>
 					<dd><input type="text" name="name_marker" id="keyword" value="" /></dd>
-
-
 
 				<dt><label for="foobar">
 					<?php echo JText::_( 'COM_MAPYANDEX_SEACRHMETHOD' ); ?>:
@@ -1154,7 +1106,6 @@ $document->addScriptDeclaration($script);
 <?php
 
 
-
 		echo '<table cellspacing="3" cellpadding="0" border="0" style="background-color:white" class="table"><tbody><tr valign="top">
       </tr>';
 $option = array(
@@ -1237,9 +1188,6 @@ if(($i % 6)==0) {
 
 	echo '<td align="center" width="" colname="col2"><input type="radio" value="'.$option[$i].'" class="deficon" name="deficon"></td>'; 
 
-  
-
-
 	}
 
 		
@@ -1266,7 +1214,7 @@ echo '</tr><tr valign="top">
 ?>
 	</fieldset>
 </div>
-<input type="hidden" name="id" value="<?php echo $this->foobar->id;?>" />
+<input type="hidden" name="id" value="<?php echo $this->map->id;?>" />
 
 </form>
  </td>
@@ -1325,7 +1273,7 @@ $data = array(); // array for all user settings
 <?php
 
 
-if ($this->foobar->where_text == 3) {
-	echo $this->foobar->text_map_yandex;
+if ($this->map->where_text == 3) {
+	echo $this->map->text_map_yandex;
 }
 ?>

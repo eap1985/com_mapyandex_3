@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view' );
-
+jimport('joomla.string');
 /**
  * Hello View
  *
@@ -60,17 +60,20 @@ class MapYandexViewMapyandexregion extends JViewLegacy
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_REGIONS' ), 'mapyandexe' );
 		
 		$data['layout'] = JRequest::getVar('layout');
-		$this->foobar = $this->get('Foobar');
-		if($data['layout'] == 'form' && !empty($this->foobar)) {
+		$this->map = $this->get('Foobar');
+		if($data['layout'] == 'form' && !empty($this->map)) {
 			JToolBarHelper::apply('apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('save', 'JTOOLBAR_SAVE');
 			
 			JToolBarHelper::cancel( 'cancel','COM_MAPYANDEX_CANCEL' );	
 			$map_region_style = array();
-			$map_region_style = json_decode($this->foobar->map_region_style);
+			$map_region_style = json_decode($this->map->map_region_style);
 
-			$this->foobar->color_map_region = $map_region_style[1];
-			$this->form->bind($this->foobar);
+			$this->map->color_map_region = $map_region_style[1];
+			$this->textarrayoutput = MapYandexHelper::textarrayForRegions($this->map);
+			$this->route = MapYandexHelper::addRouteToMap($this->map);
+			$this->regions = MapYandexHelper::addRegionsToMap($this->map);
+			$this->form->bind($this->map);
 		} 
 		
 		$this->allroute = $this->get('AllRoute');

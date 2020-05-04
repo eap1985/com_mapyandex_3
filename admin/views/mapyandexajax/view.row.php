@@ -21,8 +21,39 @@ class MapYandexViewMapyandexajax extends JViewLegacy
 		JToolBarHelper::title(   JText::_( 'INSTRUCTION' ), 'mapyandexdoc' );
 		
 		$params = JComponentHelper::getParams( 'com_mapyandex' );
-				
+		$key = JRequest::getVar('key');
 		
+		// Load the current component params.
+		$params = JComponentHelper::getParams('com_mapyandex');
+		// Set new value of param(s)
+		$params->set('key', $key);
+
+		// Save the parameters
+		$componentid = JComponentHelper::getComponent('com_mapyandex')->id;
+		$table = JTable::getInstance('extension');
+		$table->load($componentid);
+		$table->bind(array('params' => $params->toString()));
+
+		// check for error
+		if (!$table->check()) {
+			//echo $table->getError();
+			echo json_encode(array('error'=>1,'text'=>$table->getError()));
+			return false;
+		}
+		// Save to database
+		if (!$table->store()) {
+			
+			//echo $table->getError();
+			echo json_encode(array('error'=>1,'text'=>$table->getError()));
+			return false;
+		} else {
+			echo json_encode(array('ok'=>1,'text'=>JText::_( 'COM_MAPYANDEX_SAVE_DWS' )));
+		}
+	
+		$this->setLayout('row');
+
+		
+
 		parent::display($tpl);
 	}
 }

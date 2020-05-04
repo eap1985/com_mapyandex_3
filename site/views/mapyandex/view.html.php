@@ -27,8 +27,8 @@ class MapYandexViewMapyandex extends JViewLegacy
 		$this->params = $app->getParams();
 		
 
-		$this->foobar = $this->get('Foobar');
-		if(empty($this->foobar)) {
+		$this->map = $this->get('Foobar');
+		if(empty($this->map)) {
 
 			echo JText::_( 'COM_MAPYANDEX_MAP_NO' );
 			return;
@@ -70,7 +70,7 @@ class MapYandexViewMapyandex extends JViewLegacy
 			if($textarray != '') {
 				$textarray = substr($textarray, 0, -1);
 			}
-			($this->foobar->map_centering) ? $map_centering = 'true' : $map_centering = 'false'; 
+			($this->map->map_centering) ? $map_centering = 'true' : $map_centering = 'false'; 
 			$ymaproute = 'ymaps.route([
 							'.$textarray.'
 						], {
@@ -83,8 +83,8 @@ class MapYandexViewMapyandex extends JViewLegacy
 							// Задаем стиль метки - иконки будут красного цвета, и
 							// их изображения будут растягиваться под контент
 							
-							points.options.set(\'preset\', \'twirl#redStretchyIcon\');
-							route.options.set({ strokeColor: \''.$this->foobar->color_map_route.'\', opacity: '.$this->foobar->map_route_opacity.' });
+							points.options.set(\'preset\', \'islands#redStretchyIcon\');
+							route.options.set({ strokeColor: \''.$this->map->color_map_route.'\', opacity: '.$this->map->map_route_opacity.' });
 							points.get(0).properties.set(\'iconContent\', \'Точка отправления\');
 							for(i = 0; i <='.($length).';i++) {
 								if(i == '.($length).') {		

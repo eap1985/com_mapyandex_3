@@ -70,10 +70,10 @@ JHtml::_('formbehavior.chosen', 'select');
     <?php
     $k = 0;
 	
-    for ($i=0, $n=count( $this->foobar ); $i < $n; $i++)
+    for ($i=0, $n=count( $this->map ); $i < $n; $i++)
     {
 
-        $row = $this->foobar[$i];
+        $row = $this->map[$i];
         $checked    = JHTML::_( 'grid.id', $i, $row->id );
 		if($row->map_type == 'calculator') {
 			$link = JRoute::_( 'index.php?option=com_mapyandex&view=mapyandexcalculator&layout=formedit&id='. $row->id );

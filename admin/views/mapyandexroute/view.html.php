@@ -11,6 +11,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view' );
 
+
 /**
  * MapYandexViewMapyandexroute View
  *
@@ -33,6 +34,8 @@ class MapYandexViewMapyandexroute extends JViewLegacy
 	
 	function display($tpl = null)
 	{
+
+		
 		$app	= JFactory::getApplication();
 		$this->form	= $this->get('Form');
 		$this->state = $this->get('State');
@@ -71,9 +74,13 @@ class MapYandexViewMapyandexroute extends JViewLegacy
 			
 			JToolBarHelper::cancel( 'cancel','COM_MAPYANDEX_CANCEL' );
 			
-			$this->foobar = $this->get('Foobar');
-
-			$this->form->bind($this->foobar);
+			$this->map = $this->get('Foobar');
+		
+			$this->route = MapYandexHelper::addRouteToMap($this->map);
+			$this->regions = MapYandexHelper::addRegionsToMap($this->map);
+			$this->textarrayoutput = MapYandexHelper::textarrayoutput($this->map);
+		
+			$this->form->bind($this->map);
 		}
 		
 

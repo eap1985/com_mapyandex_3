@@ -1,6 +1,8 @@
 <?php defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.filesystem.folder' );
+
 class MapYandexRenderInfo { function getPhocaIc($output){
+	
 	$v = MapYandexRenderInfo::getYndexMapVersion(); $i = str_replace('.', '',substr($v, 0, 3)); $n = '<p>&nbsp;</p>'; $l = 'h'.'t'.'t'.'p'.':'.'/'.'/'.'w'.'w'.'w'.'.'.'s'.'l'.'y'.'w'.'e'.'b'.'.'.'r'.'u'.'/'; $p = 'S'.'l'.'y'.'w'.'e'.'b'; $im = 'i'.'c'.'o'.'n'.'-'.'s'.'l'.'y'.'w'.'e'.'b'.'-'.'l'.'o'.'g'.'o'.'-'.'s'.'m'.'a'.'l'.'l'.'.'.'p'.'n'.'g'; $s = 's'.'t'.'y'.'l'.'e'.'='.'"'.'t'.'e'.'x'.'t'.'-'.'d'.'e'.'c'.'o'.'r'.'a'.'t'.'i'.'o'.'n'.':'.'n'.'o'.'n'.'e'.'"'; $b = 't'.'a'.'r'.'g'.'e'.'t'.'='.'"'.'_'.'b'.'l'.'a'.'n'.'k'.'"'; $im2 = 'i'.'c'.'o'.'n'.'-'.'s'.'l'.'y'.'w'.'e'.'b'.'-'.'l'.'o'.'g'.'o'.'-'.'s'.'e'.'a'.'l'.'.'.'p'.'n'.'g'; $i = (int)$i * (int)$i; $lg = ''; if ($output != $i) {
 		$lg .= $n; $lg .= '<div style="text-align:center">';
 	} if ($output == 1) {
@@ -19,14 +21,16 @@ class MapYandexRenderInfo { function getPhocaIc($output){
 	} if ($output != $i) {
 		$lg .= '</div>' . $n;
 	} return $lg;
-} static function getYndexMapVersion() {
+} 
+
+static function getYndexMapVersion() {
 	$folder = JPATH_ADMINISTRATOR .DS. 'components'.DS.'com_mapyandex'; if (JFolder::exists($folder)) {
 		$xmlFilesInDir = JFolder::files($folder, '.xml$');
 	} else { $folder = JPATH_SITE .DS. 'components'.DS.'com_mapyandex'; if (JFolder::exists($folder)) {
 		$xmlFilesInDir = JFolder::files($folder, '.xml$');
 	} else { $xmlFilesInDir = null;
 	}
-	} $xml_items = ''; if (count($xmlFilesInDir)) {
+	} $xml_items = array(); if (count($xmlFilesInDir)) {
 		foreach ($xmlFilesInDir as $xmlfile) {
 			if ($data = JApplicationHelper::parseXMLInstallFile($folder.DS.$xmlfile)) {
 				foreach($data as $key => $value) {
@@ -39,4 +43,6 @@ class MapYandexRenderInfo { function getPhocaIc($output){
 	} else { return '';
 	}
 }
-} ?>
+}
+
+?>

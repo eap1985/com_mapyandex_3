@@ -62,8 +62,11 @@ class MapYandexViewMap extends JViewLegacy
 			JToolBarHelper::cancel( 'cancel', 'Close' );
 		}
 
-		$this->foobar = $this->get('Foobar');
-		$this->form->bind($this->foobar);
+		$this->map = $this->get('Foobar');
+		
+			$this->route = MapYandexHelper::addRouteToMap($this->map);
+			$this->regions = MapYandexHelper::addRegionsToMap($this->map);
+		$this->form->bind($this->map);
 
 		$this->assignRef( 'tmpl', $tmpl );
 		
@@ -75,63 +78,98 @@ class MapYandexViewMap extends JViewLegacy
 	
 	
 		
-	function addRouteToMap($route)
+	function addRegionsToMap($region)
 	{
-		$textarray = '';
-		$textarrayonput = '';
-		$cr = count($route);
-		if($route) {
-			$i = -1;
-			$length = count($route)-1;
-			foreach($route as $val) {
-			$i++;
-						$textarray  .= '\''.$val.'\',';
-						
-						  if($i == 0) {
-							$textbefore = 'Начало пути';
-						  } else if($i == $length) {
-							$textbefore = 'Конец пути';
-						  }	
-						  else {
-							$textbefore = 'Пункт '.$i;
-						  }
-						  
-						  $textarrayonput  .= '<li class="ui-state-default"><div width="100" align="left" class="key"><label for="foobar">'.$textbefore.'</label></div><div width="100" align="left"><input type="text" name="name_route_yandex[]" class="newroute" size="100" value="'.$val.'" /></div><div class="imgdeleteroute" rel="'.$i.'">'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/iconfalse.png', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' )).'</div><div>'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/icon-loading2.gif', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' ),array('class'=>'imgyandexmaploader')).'</div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>';
-							
-
-			}
-						if($textarray != '') {
-							$textarray = substr($textarray, 0, -1);
-						}
-($this->foobar->map_centering) ? $map_centering = 'true' : $map_centering = 'false'; 
- 
-			$ymaproute = 'ymaps.route([
-							'.$textarray.'
-						], {
-							// Опции маршрутизатора
-		
-						}).then(function (route) {
-							map.geoObjects.add(route);
-							
-							   var points = route.getWayPoints();  
-							// Задаем стиль метки - иконки будут красного цвета, и
-							// их изображения будут растягиваться под контент
-			
-							points.options.set(\'preset\', \'twirl#redStretchyIcon\');
-							route.options.set({ strokeColor: \''.$this->foobar->color_map_route.'\', opacity: '.$this->foobar->map_route_opacity.' });
-							points.get(0).properties.set(\'iconContent\', \'Точка отправления\');
-							for(i = 0; i <='.($length).';i++) {
-								if(i == '.($length).') {		
-									points.get('.($length).').properties.set(\'iconContent\', \'Точка прибытия\');
-								}
-							}
-						}, function (error) {
-							alert("Возникла ошибка: " + error.message);
-						});';
+		$region = json_decode($this->map->region_map_yandex);
+		$map_region_style = array();
+		$map_region_style[1] = '#0000FF';
+		$region_border_color = '#FFFF00';
+		$map_region_style = json_decode($this->map->map_region_style);
+		if(!is_array($map_region_style) || empty($map_region_style)) {
+		$styleoption = '											
+				strokeWidth: 6,
+				strokeColor: \'#'.$map_region_style[1].'\', // синий
+				opacity: \'0.5\', // синий
+				fillColor: \''.$region_border_color.'\', // желтый
+				draggable: true      // объект можно перемещать, зажав левую кнопку мыши';
 		} else {
-			$ymaproute = '';
+		$styleoption = '											
+				strokeWidth: 6,
+				strokeColor: \'#'.$map_region_style[1].'\', // синий
+				opacity: \''.$map_region_style[0].'\', // синий
+				fillColor: \''.$region_border_color.'\', // желтый
+				draggable: true      // объект можно перемещать, зажав левую кнопку мыши';
 		}
+		if($region) {
 
-		return $ymaproute;
-	}
+			$gi = -1;
+			$length = count($region)-1;
+			$ymapregion = '
+			myGeoobject = [];';
+			foreach($region as $val) {
+			$gi++;
+						$textbefore = 'Регион № '.$gi;
+						  
+						  $textarrayonput  .= '<li class="ui-state-default"><div width="100" align="left" class="key"><label for="foobar">'.$textbefore.'</label></div><div width="100" align="left"><input type="text" class="acpro_inp_'.($gi+1).' newroute" name="name_region_yandex[]" size="100" value="'.$val.'" /></div><div class="imgdeleteroute" rel="'.($gi+1).'" data-region="'.$this->map->id.'">'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/iconfalse.png', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' )).'</div><div>'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/icon-loading2.gif', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' ),array('class'=>'imgyandexmaploader')).'</div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>';
+							
+							if($textarray != '') {
+								$textarray = substr($textarray, 0, -1);
+							}
+				
+							$c = 0;
+							$jsarr = '';
+							foreach(explode(',',$val) as $item) {
+
+								if($c%2==0) {
+									$jsarr .= '[';
+								}
+								if($c%2!==0) {
+									$jsarr .= $item.'],';
+								} else {
+									$jsarr .= $item.',';
+								}
+								++$c;
+							}
+							//last comma delete ie8
+							$jsarr = rtrim($jsarr, ",");
+						
+							$ymapregion .= '
+							myGeometry = {
+													type: \'Polygon\',
+													coordinates: [
+														[
+														
+															'.$jsarr.'
+
+														]
+													]
+												},
+												myOptions = {
+													'.$styleoption.'
+												};
+
+											// Создаем геообъект с определенной (в switch) геометрией.
+											myGeoobject['.($gi+1).'] = new ymaps.GeoObject({geometry: myGeometry}, myOptions);
+
+											// При визуальном редактировании геообъекта изменяется его геометрия.
+											// Тип геометрии измениться не может, однако меняются координаты.
+											// При изменении геометрии геообъекта будем выводить массив его координат.
+											//myGeoobject['.($gi+1).'].events.add(\'geometrychange\', function (event) {
+											//	printGeometry(myGeoobject['.($gi+1).'].geometry.getCoordinates(),'.($gi+1).');
+											//});
+
+											// Размещаем геообъект на карте
+											map.geoObjects.add(myGeoobject['.($gi+1).']);
+											//myGeoobject['.($gi+1).'].editor.startEditing();
+
+										// Выводит массив координат геообъекта в <div id="geometry">
+							
+							';
+			}	
+			
+		}
+		return $ymapregion;
+	}	
+	
+
 }

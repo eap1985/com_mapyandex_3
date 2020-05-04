@@ -26,6 +26,7 @@ mapyandeximport('mapyandex.render.renderadmin');
 mapyandeximport('mapyandex.render.renderadminview');
  
 jimport('joomla.application.component.controller');
+JLoader::register('MapYandexHelper', JPATH_COMPONENT . '/helpers/mapyandex.php');
 
 $controller = JRequest::getWord('view', 'mapyandex');
 $controller = JString::strtolower($controller);

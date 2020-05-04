@@ -101,6 +101,11 @@ class mapyandexViewMapyandex extends JViewLegacy
 		
 		$pageNav = $this->get('Reviews');
 		$this->assignRef('pageNav', $pageNav);
+
+		$params = JComponentHelper::getParams( 'com_mapyandex' );
+		$this->key = $params->get( 'key');		
+		
+		$this->setLayout('row');
 		
 		parent::display($tpl);
 	}

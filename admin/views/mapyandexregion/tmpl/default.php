@@ -56,6 +56,9 @@ JHtml::_('formbehavior.chosen', 'select');
 			<th>
                 <?php echo JText::_( 'COM_MAPYANDEX_YMCODE' ); ?>
             </th>
+			<th>
+                <?php echo JText::_( 'COM_MAPYANDEX_REGIONS_COUNT' ); ?>
+            </th>
         </tr>            
     </thead>
     <?php
@@ -66,7 +69,7 @@ JHtml::_('formbehavior.chosen', 'select');
         $row =& $this->allroute[$i];
         $checked    = JHTML::_( 'grid.id', $i, $row->id );
         $link = JRoute::_( 'index.php?option=com_mapyandex&view=mapyandexregion&layout=form&id='. $row->id );
- 
+		
         ?>
         <tr class="<?php echo "row$k"; ?>">
 		    <td>
@@ -87,6 +90,15 @@ JHtml::_('formbehavior.chosen', 'select');
             </td>
 			<td>
                 <?php echo '{mapyandex_id='.$row->id.'}' ?>
+            </td>
+			<td>
+                <?php 
+					
+					$region = json_decode($row->region_map_yandex);
+					
+					echo count($region); 
+				
+				?>
             </td>
         </tr>
         <?php

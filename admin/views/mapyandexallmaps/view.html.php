@@ -31,6 +31,7 @@ class MapYandexViewMapyandexallmaps extends JViewLegacy
 		$data['layout'] = JRequest::getVar('layout');
 		$data['task'] = JRequest::getVar('task');
 		
+
 		if($data['layout'] == 'form') {
 		JToolBarHelper::title(   JText::_( 'COM_MAPYANDEX_YANDEXNEWMAP' ), 'mapyandexallmaps' );
 			JToolBarHelper::save('save', 'COM_MAPYANDEX_SAVE_NEW_MAP');
@@ -44,28 +45,28 @@ class MapYandexViewMapyandexallmaps extends JViewLegacy
 			JToolBarHelper::deleteList(JText::_( 'COM_MAPYANDEX_DELETE_CONFIRM' ),'remove');
 		}
 		// interrogate the model
-		$this->foobar = $this->get('Foobar');
+		$this->map = $this->get('Foobar');
 		
-		if($data['layout'] == 'form' && $data['task'] != 'add' && !empty($this->foobar)) $this->foobar = $this->foobar[0];
+		if($data['layout'] == 'form' && $data['task'] != 'add' && !empty($this->map)) $this->map = $this->map[0];
 		
-		if(empty($this->foobar) && $data['layout'] == 'form') {
+		if(empty($this->map) && $data['layout'] == 'form') {
 			
-			$this->foobar = $this->get('DefaultSettings');
+			$this->map = $this->get('DefaultSettings');
 			
 		}
-		
-		
+	
 		
 		$pageNav = $this->get('Reviews');
 		$this->assignRef('pageNav', $pageNav);
 		
 		$params = JComponentHelper::getParams( 'com_mapyandex' );
 				
-		$tmpl['apikey'] = $params->get( 'yandex_maps_api_key', '' );
+		$tmpl['apikey'] = $params->get( 'key', '' );
 
 
 		$this->assignRef( 'tmpl', $tmpl );
 		
+	
 		
 		parent::display($tpl);
 	}

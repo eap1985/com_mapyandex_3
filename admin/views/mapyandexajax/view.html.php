@@ -20,8 +20,8 @@ class MapYandexViewMapyandexajax extends JViewLegacy
 		$doc->addStyleDeclaration($css);
 		JToolBarHelper::title(   JText::_( 'INSTRUCTION' ), 'mapyandexdoc' );
 		
-		$params = JComponentHelper::getParams( 'com_mapyandex' );
-
+		$this->params = JComponentHelper::getParams( 'com_mapyandex' );
+		$this->setLayout('row:lol');
 		
 		parent::display($tpl);
 	}

@@ -56,7 +56,9 @@ foreach ($l as $k => $v) {
 	}
 
 }
-	
+
+
+
 	
 class MapYandexController extends JControllerLegacy
 {
@@ -82,6 +84,23 @@ class MapYandexController extends JControllerLegacy
 
 			JRequest::setVar( 'view', 'mapyandexajaxdelete');
 			JRequest::setVar( 'layout', 'default');
+
+
+		parent::display();
+	}
+
+	
+	/**
+	 * display task
+	 *
+	 * @return void
+	 */
+	public function ajaxsavekey()
+	{
+	
+
+			JRequest::setVar( 'view', 'mapyandexajax');
+			JRequest::setVar( 'layout', 'row');
 
 
 		parent::display();
