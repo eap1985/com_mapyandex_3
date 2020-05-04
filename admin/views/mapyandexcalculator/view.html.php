@@ -89,16 +89,14 @@ class MapYandexViewMapyandexcalculator extends JViewLegacy
 		}
 		
 		// interrogate the model
-		$this->foobar = $this->get('Foobar');
-		if(empty($this->foobar)) {
+		$this->map = $this->get('Foobar');
+		if(empty($this->map)) {
 			require_once JPATH_COMPONENT.DS.'models'.DS.'mapyandexallmaps.php';
 			$mapset = new MapYandexModelMapYandexAllMaps();
-			$this->foobar = $mapset->getDefaultSettings();
+			$this->map = $mapset->getDefaultSettings();
 		
 		}
-		
 
-		
 		$this->allroute = $this->get('AllRoute');
 
 		$this->assignRef( 'tmpl', $tmpl );

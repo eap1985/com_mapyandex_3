@@ -13,44 +13,50 @@ JHtml::_('formbehavior.chosen', 'select');
 echo '<form action="index.php" method="post" name="adminForm" id="adminForm">';
 echo '<div class="row-fluid">';
 echo '<div class="span12 form-horizontal">';
-?>
-  	
-	
-	
 
-	<?php $document = JFactory::getDocument();?>
+$document = JFactory::getDocument();
+$document->addScript('https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey='.$this->params->get('key'));
+
+$trafficControl = '';
+$geolocationControl = '';
+$sputnik = '';
+$search = '';
+$scale = '';
+$styleel = '';
+$stylecoo = '';
+$stylead = '';
+$stylead = '';
+$element = '';
+$border = '';
+$borderradius = '';
 
 
-	<?php $document->addScript('http://api-maps.yandex.ru/2.0.10/?load=package.full&lang=ru-RU');?>
+if(strpos($this->map->width_map_yandex,'%') == false) {
+	$this->map->width_map_yandex = $this->map->width_map_yandex.'px';
+	preg_match('@\d+@si',$this->map->width_map_yandex,$m);
+	$this->map->width_map_yandex = $m[0].'px';
+}
+if(strpos($this->map->height_map_yandex,'%') == false) {
+	$this->map->height_map_yandex = $this->map->height_map_yandex.'px';
+	preg_match('@\d+@si',$this->map->height_map_yandex,$m);
+	$this->map->height_map_yandex = $m[0].'px';
+}
 
+if($this->map->bradius == 1) {
+	$borderradius = 'border-radius: 6px 6px 6px 6px;';
+}
+if($this->map->yandexborder == 1) {
+	$border = 'border: 1px solid #'.$this->map->color_map_yandex.';';
+}
 
-
-<?php
-	$lineika = '';
-	$minimap = '';
-	$sputnik = '';
-	$search = '';
-	$scale = '';
-	$styleel = '';
-	$stylecoo = '';
-	$stylead = '';
-	$stylead = '';
-	$element = '';
-	
-	if($this->foobar->bradius == 1) {
-		$borderradius = 'border-radius: 6px 6px 6px 6px;';
-	}
-	if($this->foobar->yandexborder == 1) {
-		$border = 'border: 1px solid #'.$this->foobar->color_map_yandex.';';
-	}
 $style = '.YMaps-b-balloon-wrap td {
 padding:0!important;
 }
 #YMapsID {
 
 	margin:0; 
-	box-shadow: 4px 4px 4px #'.$this->foobar->color_map_yandex.';  
-	background: -moz-linear-gradient(center top , #'.$this->foobar->color_map_yandex.', #F1F1F1) repeat scroll 0 0 #F1F1F1;
+	box-shadow: 4px 4px 4px #'.$this->map->color_map_yandex.';  
+	background: -moz-linear-gradient(center top , #'.$this->map->color_map_yandex.', #F1F1F1) repeat scroll 0 0 #F1F1F1;
 
     color: #333333;
     font-weight: bold;
@@ -59,44 +65,56 @@ padding:0!important;
 
 	}
 .YMaps-b-balloon-content {
-width:'.$this->foobar->oblako_width_map_yandex.'px !important;
+width:'.$this->map->oblako_width_map_yandex.'px !important;
 }	
 	';
 $document->addStyleDeclaration($style);
-?>
 
-<?php 
-if(!$this->foobar->height_map_yandex) $this->foobar->height_map_yandex = '500';
-if(!$this->foobar->width_map_yandex) $this->foobar->width_map_yandex = '500';
+if(!$this->map->height_map_yandex) $this->map->height_map_yandex = '500';
+if(!$this->map->width_map_yandex) $this->map->width_map_yandex = '500';
 
 //всё шиворот на выворот
 $valone = 'var valone = false;';
-$valone = 'var valone = \''.$this->foobar->city_map_yandex.'\';';
+$valone = 'var valone = \''.$this->map->city_map_yandex.'\';';
 
-	$defaultmap = ($this->foobar->defaultmap) ? $this->foobar->defaultmap : 'publicMap';
+	$defaultmap = ($this->map->defaultmap) ? $this->map->defaultmap : 'publicMap';
 
+	$el = json_decode($this->map->yandexel);
 
-		$lineika = '.add("mapTools")';
-		$minimap = '.add("miniMap")';
-		$sputnik = '.add("typeSelector")';
-		$search	 = '.add("searchControl")';
-		$scale 	 = '.add("zoomControl")';
+	if($el) {
+	
+			if(in_array(1,$el)) {
+			$trafficControl = '"trafficControl",';
+		}
+			if(in_array(2,$el)) {
+			$geolocationControl = '"geolocationControl",';
+		}
+			if(in_array(3,$el)) {
+			$sputnik = '"typeSelector",';
+		}
+			if(in_array(4,$el)) {
+			$search = '"searchControl",';
+		}
+			if(in_array(5,$el)) {
+			$scale = '"zoomControl",';
+		}
+	} else {
 
+		$trafficControl = '"trafficControl",';
+		$geolocationControl = '"geolocationControl",';
+		$sputnik = '"typeSelector",';
+		$search	 = '"searchControl",';
+		$scale 	 = '"zoomControl",';
+	}
+	
 
-$element = "
-			// Добавление элементов управления
-            ".$lineika."
-            ".$sputnik ."
-			".$minimap." 
-			".$scale."
-			".$search."";
-			
-
-
-
-
-
-
+	 $element = "
+				".$trafficControl."
+				".$geolocationControl ."
+				".$sputnik." 
+				".$scale."
+				".$search."";
+	
 
 $script ='	
 $.noConflict();
@@ -156,9 +174,9 @@ $.noConflict();
 					// Центр карты
 					center: res.geoObjects.get(0).geometry.getCoordinates(),
 					// Коэффициент масштабирования
-					zoom: '.$this->foobar->yandexzoom.',
-					type: "yandex#'.$defaultmap.'"
-		
+					zoom: '.$this->map->yandexzoom.',
+					type: "yandex#'.$defaultmap.'",
+					controls: ['.$element.']
 				}
 				);	
 				calculator = new DeliveryCalculator(map, point);
@@ -169,22 +187,9 @@ $.noConflict();
       
            // Добавление стандартного набора кнопок
 			map.controls
-			'.$element.'
-			
+		
                 });
-			
-			
 
-
-			
-
-			
-			 
-
-
-			
-			
-			
         });  
 		
 			var DELIVERY_TARIF = 15,
@@ -202,7 +207,8 @@ $.noConflict();
 				var ptp = DeliveryCalculator.prototype;
 			 
 				ptp._onClick = function (e) {
-					var position = e.get(\'coordPosition\');
+					var position = e.get(\'coords\');
+			
 					$j(\'#deletemenu\').remove();
 					
 					if(!this._start) {
@@ -337,7 +343,7 @@ $.noConflict();
 					return cost < min && min || cost;
 				};
 			 
-				$j(".imgdeleteroute").live("click", function(){
+				$j("body").on("click",".imgdeleteroute", function(){
 				$tr = $j(this).parent();
 					var idmap = $j(this).attr("data-idmap");
 					var id = $j(this).attr("rel");
@@ -357,7 +363,7 @@ $.noConflict();
 					});
 				});
 		
-				$j(".addnewroute").live("click",function(e){ 
+				$j(".addnewroute").on("click",function(e){ 
 				e.preventDefault();
 				
 				varnr = $j(\'.newroute\').length;
@@ -401,7 +407,7 @@ $.noConflict();
 	
 $document->addScriptDeclaration($script);
 ?>
-<div class="span12 ">
+<div class="span12">
 
 <div class="span8 fltlft">
 		<fieldset class="adminform">
@@ -417,7 +423,7 @@ $document->addScriptDeclaration($script);
 					<?php echo JText::_( 'COM_MAPYANDEX_NAMEMAP' ); ?>:
 				</label>
 
-			 <input type="text" name="name_map_yandex" id="keyword" value="<?php echo $this->foobar->name_map_yandex;?>" />
+			 <input type="text" name="name_map_yandex" id="keyword" value="<?php echo $this->map->name_map_yandex;?>" />
 			</td>
 			</tr>
 		
@@ -448,7 +454,7 @@ $document->addScriptDeclaration($script);
 				$statez[] = JHTML::_('select.option','15', JText::_( '15' ) );
 				$statez[] = JHTML::_('select.option','16', JText::_( '16' ) );
 				$statez[] = JHTML::_('select.option','17', JText::_( '17' ) );
-				echo JHTML::_('select.genericlist',  $statez, $name = 'yandexzoom', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->yandexzoom, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $statez, $name = 'yandexzoom', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->yandexzoom, $idtag = false, $translate = false );
 			?>
 			</tr>
 
@@ -472,13 +478,13 @@ $document->addScriptDeclaration($script);
 	
 			<?php 
 				$attribs	= 'multiple="multiple"';
-				$statem[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_TOOLS' ) );
-				$statem[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_MINIMAP' ) );
-				$statem[] = JHTML::_('select.option','3', JText::_( 'COM_MAPYANDEX_TYPEOFMAP' ) );
-				$statem[] = JHTML::_('select.option','4', JText::_( 'COM_MAPYANDEX_SEARCH' ) );
-				$statem[] = JHTML::_('select.option','5', JText::_( 'COM_MAPYANDEX_ZOOM' ) );
+						$statem[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_TRAFFICCONTROL' ) );
+						$statem[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_GEOLOCATIONCONTROL' ) );
+						$statem[] = JHTML::_('select.option','3', JText::_( 'COM_MAPYANDEX_TYPEOFMAP' ) );
+						$statem[] = JHTML::_('select.option','4', JText::_( 'COM_MAPYANDEX_SEARCH' ) );
+						$statem[] = JHTML::_('select.option','5', JText::_( 'COM_MAPYANDEX_ZOOM' ) );
 				
-				$el = json_decode($this->foobar->yandexel);
+				$el = json_decode($this->map->yandexel);
 				
 				echo JHTML::_('select.genericlist',  $statem, $name = 'yandexel[]', $attribs, $key = 'value', $text = 'text', $selected = $el, $idtag = false, $translate = false );
 			?>
@@ -492,7 +498,7 @@ $document->addScriptDeclaration($script);
 					<?php echo JText::_( 'COM_MAPYANDEX_WIDTHMAP' ); ?>:
 				</label>
 	
-				 <input type="text" name="width_map_yandex" value="<?php echo $this->foobar->width_map_yandex;?>">
+				 <input type="text" name="width_map_yandex" value="<?php echo $this->map->width_map_yandex;?>">
 			</td>
 			</tr>
 																	<tr>
@@ -501,7 +507,7 @@ $document->addScriptDeclaration($script);
 					<?php echo JText::_( 'COM_MAPYANDEX_HEIGHTMAP' ); ?>:
 				</label>
 
-				 <input type="text" name="height_map_yandex" value="<?php echo $this->foobar->height_map_yandex;?>">
+				 <input type="text" name="height_map_yandex" value="<?php echo $this->map->height_map_yandex;?>">
 			</td>
 			</tr>
 			</table>
@@ -518,7 +524,7 @@ $document->addScriptDeclaration($script);
 					<?php echo JText::_( 'COM_MAPYANDEX_ADDRESS' ); ?>:
 				</label>
 	
-				 <input type="text" size="50" id="city_map_yandex" autocomplete="off" name="city_map_yandex" value="<?php echo $this->foobar->city_map_yandex;?>">
+				 <input type="text" size="50" id="city_map_yandex" autocomplete="off" name="city_map_yandex" value="<?php echo $this->map->city_map_yandex;?>">
 			</td>
 		</tr>
 		
@@ -539,7 +545,7 @@ $document->addScriptDeclaration($script);
 
 					
 						
-						echo JHTML::_('select.genericlist',  $defmap, $name = 'defaultmap', $attribs, $key = 'value', $text = 'text', $selected = $this->foobar->defaultmap, $idtag = false, $translate = false );
+						echo JHTML::_('select.genericlist',  $defmap, $name = 'defaultmap', $attribs, $key = 'value', $text = 'text', $selected = $this->map->defaultmap, $idtag = false, $translate = false );
 					?>
 				</td>
 		</tr>
@@ -575,7 +581,8 @@ $document->addScriptDeclaration($script);
 
 	
 	<div class="clr" style="clear:both;"></div>
-<div class="span12">
+	
+<div>
           <fieldset class="adminform">
           <legend><?php echo JText::_('COM_MAPYANDEX_CALCULATOR_LEGEND'); ?></legend>
 	
@@ -590,7 +597,7 @@ $document->addScriptDeclaration($script);
 <div class="clr"></div>
 
 <input type="hidden" name="option" value="com_mapyandex" />
-<input type="hidden" name="id" value="<?php echo $this->foobar->id; ?>" />
+<input type="hidden" name="id" value="<?php echo $this->map->id; ?>" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="editmarket" value="1" />
 <input type="hidden" name="map_type" value="calculator" />

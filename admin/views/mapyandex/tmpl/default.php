@@ -1,4 +1,9 @@
-<?php defined('_JEXEC') or die('Restricted access');?>
+<?php defined('_JEXEC') or die('Restricted access');
+
+$document	=  JFactory::getDocument();
+$document->addScript('/administrator/components/com_mapyandex/assets/js/ajax-key.js');
+
+?>
 
 <form action="index.php" method="post" id="adminForm" name="adminForm">
 <div id="j-sidebar-container" class="span2">
@@ -37,7 +42,29 @@
 				
 		<div style="clear:both">&nbsp;</div>
 		<p>&nbsp;</p>
-
+		
+		<form>
+			<label for="name"><?php echo JText::_( 'COM_MAPYANDEX_KEY' );?></label>
+			<input type="text" id="yandex-key" name="key" value="<?php echo $this->key;?>"></input>
+		<?php
+		echo '<div id="pg-update-save"><a href="http://www.slyweb.ru/yandexmap/version/index.php?version='.  $this->MapYandexRenderInfo->getYndexMapVersion() .'" target="_blank">'.  JText::_('COM_MAPYANDEX_KEY_SAVE') .'</a></div>';
+		?>
+		<div id="pg-update-save-message"></div>
+		
+		<?php
+		if(!$this->key) {
+			JError::raiseError( 4711, 'You need yandex api key. <br/> Link https://developer.tech.yandex.ru/services/. See input below.' );
+			
+		}
+			$MapYandex = JPluginHelper::getPlugin('content', 'mapyandex');
+			if(!$MapYandex) {
+				echo '<hr><p>'.JText::_('COM_MAPYANDEX_PLUGIN_NOT_ENABLED').'</p>';
+			}
+		?>
+		</form>
+		
+		
+		
 	</div>
 </div>
 		

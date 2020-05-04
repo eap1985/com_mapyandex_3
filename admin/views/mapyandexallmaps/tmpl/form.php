@@ -40,46 +40,57 @@ $script ='
 $document->addScriptDeclaration($script);
 ?>
 <form action="index.php" method="post" name="adminForm" id="adminForm">	
-
 <?php 
 
-$lineika = '';
-$minimap = '';
-$sputnik = '';
-$search = '';
-$scale = '';
-$styleel = '';
-$stylecoo = '';
-$stylead = '';
-$element = '';
 
+	$trafficControl = '';
+	$geolocationControl = '';
+	$sputnik = '';
+	$search = '';
+	$scale = '';
+	$styleel = '';
+	$stylecoo = '';
+	$stylead = '';
+	$stylead = '';
+	$element = '';
+	$border = '';
+	$borderradius = '';
 
-		if (!empty($this->foobar->id_map_yandex)) {
-			$this->foobar->id_map_yandex = $this->foobar->id_map_yandex;
+if(strpos($this->map->width_map_yandex,'%') == false) {
+	$this->map->width_map_yandex = $this->map->width_map_yandex.'px';
+	preg_match('@\d+@si',$this->map->width_map_yandex,$m);
+	$this->map->width_map_yandex = $m[0].'px';
+}
+if(strpos($this->map->height_map_yandex,'%') == false) {
+	$this->map->height_map_yandex = $this->map->height_map_yandex.'px';
+	preg_match('@\d+@si',$this->map->height_map_yandex,$m);
+	$this->map->height_map_yandex = $m[0].'px';
+}
+
+		if (!empty($this->map->id_map_yandex)) {
+			$this->map->id_map_yandex = $this->map->id_map_yandex;
 		} else  {
-			$this->foobar->id_map_yandex = $this->tmpl['apikey'];
+			$this->map->id_map_yandex = $this->tmpl['apikey'];
 		}
 
-
-	
-	?>
+?>
 
 <?php
 
-if($this->foobar->yandexcoord == 1) {
+if($this->map->yandexcoord == 1) {
 	$stylecoo='style="display:none;"';
-	$valone = 'var valone = "'.$this->foobar->city_map_yandex.', '.$this->foobar->street_map_yandex.'"';
+	$valone = 'var valone = "'.$this->map->city_map_yandex.', '.$this->map->street_map_yandex.'"';
 	$latitude = '';
 	$longitude = '';
-} else if ($this->foobar->yandexcoord == 2){
+} else if ($this->map->yandexcoord == 2){
 	$stylead = 'style="display:none;"';
-	$parsejson = json_decode($this->foobar->lng);
+	$parsejson = json_decode($this->map->lng);
 	$longitude = $parsejson->longitude_map_yandex;
 	$latitude = $parsejson->latitude_map_yandex;
 	$valone = 'var valone = "'.$longitude.', '.$latitude.'"';
 } else {
 	$stylecoo='style="display:none;"';
-	$valone = 'var valone = "'.$this->foobar->city_map_yandex.', '.$this->foobar->street_map_yandex.'"';
+	$valone = 'var valone = "'.$this->map->city_map_yandex.', '.$this->map->street_map_yandex.'"';
 }
 
 $script ='	
@@ -182,7 +193,7 @@ $document->addScriptDeclaration($script);
 
 
 			<?php 
-			
+				$statez = array();
 				$statez[] = JHTML::_('select.option','1', JText::_( '1' ) );
 				$statez[] = JHTML::_('select.option','2', JText::_( '2' ) );
 				$statez[] = JHTML::_('select.option','3', JText::_( '3' ) );
@@ -200,7 +211,7 @@ $document->addScriptDeclaration($script);
 				$statez[] = JHTML::_('select.option','15', JText::_( '15' ) );
 				$statez[] = JHTML::_('select.option','16', JText::_( '16' ) );
 				$statez[] = JHTML::_('select.option','17', JText::_( '17' ) );
-				echo JHTML::_('select.genericlist',  $statez, $name = 'yandexzoom', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->yandexzoom, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $statez, $name = 'yandexzoom', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->yandexzoom, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
@@ -216,16 +227,16 @@ $document->addScriptDeclaration($script);
 
 
 			<?php 
-			
+			$stateb = array();
 				$stateb[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_YES' ) );
 				$stateb[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_NO' ) );
-				echo JHTML::_('select.genericlist',  $stateb, $name = 'yandexbutton', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->yandexbutton, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $stateb, $name = 'yandexbutton', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->yandexbutton, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
 		<?php
 
-		if($this->foobar->yandexbutton == 2) {
+		if($this->map->yandexbutton == 2) {
 			$styleel = 'style="display:none;"';
 		}
 		?>
@@ -240,9 +251,10 @@ $document->addScriptDeclaration($script);
 			<?php 
 				$el = array(1,2,3,4,5);
 				$attribs	= 'multiple="multiple"';
-				$statem[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_SCALE' ) );
-				$statem[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_MINIMAP' ) );
-				$statem[] = JHTML::_('select.option','3', JText::_( 'COM_MAPYANDEX_SPUTNIC' ) );
+				$statem = array();
+				$statem[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_TRAFFICCONTROL' ) );
+				$statem[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_GEOLOCATIONCONTROL' ) );
+				$statem[] = JHTML::_('select.option','3', JText::_( 'COM_MAPYANDEX_TYPEOFMAP' ) );
 				$statem[] = JHTML::_('select.option','4', JText::_( 'COM_MAPYANDEX_SEARCH' ) );
 				$statem[] = JHTML::_('select.option','5', JText::_( 'COM_MAPYANDEX_ZOOM' ) );
 				
@@ -269,7 +281,7 @@ $document->addScriptDeclaration($script);
 
 					
 						
-						echo JHTML::_('select.genericlist',  $defmap, $name = 'defaultmap', $attribs, $key = 'value', $text = 'text', $selected = $this->foobar->defaultmap, $idtag = false, $translate = false );
+						echo JHTML::_('select.genericlist',  $defmap, $name = 'defaultmap', $attribs, $key = 'value', $text = 'text', $selected = $this->map->defaultmap, $idtag = false, $translate = false );
 					?>
 					</td>
 			</tr>
@@ -281,7 +293,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			</td>
 								<td width="100" align="left">
-				 <input type="text" name="width_map_yandex" value="<?php echo $this->foobar->width_map_yandex;?>">
+				 <input type="text" name="width_map_yandex" value="<?php echo $this->map->width_map_yandex;?>">
 			</td>
 			</tr>
 																	<tr>
@@ -291,7 +303,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			</td>
 								<td align="left">
-				 <input type="text" name="height_map_yandex" value="<?php echo $this->foobar->height_map_yandex;?>">
+				 <input type="text" name="height_map_yandex" value="<?php echo $this->map->height_map_yandex;?>">
 			</td>
 			</tr>
 			</table>
@@ -318,10 +330,10 @@ $document->addScriptDeclaration($script);
 			<td align="left">
 
 			<?php 
-			
+				$statecoord = array();
 				$statecoord[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_YES' ) );
 				$statecoord[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_NO' ) );
-				echo JHTML::_('select.genericlist',  $statecoord, $name = 'autozoom', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->autozoom, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $statecoord, $name = 'autozoom', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->autozoom, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
@@ -335,10 +347,10 @@ $document->addScriptDeclaration($script);
 			<td align="left">
 
 			<?php 
-			
+				$search = array();
 				$search[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_ADRESS' ) );
 				$search[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_COORD' ) );
-				echo JHTML::_('select.genericlist',  $search, $name = 'yandexcoord', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->yandexcoord, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $search, $name = 'yandexcoord', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->yandexcoord, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
@@ -350,7 +362,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			</td>
 			<td align="left">
-				 <input type="text" name="city_map_yandex" value="<?php echo $this->foobar->city_map_yandex;?>">
+				 <input type="text" name="city_map_yandex" value="<?php echo $this->map->city_map_yandex;?>">
 			</td>
 		</tr>
 			
@@ -362,7 +374,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			</td>
 								<td width="100" align="left">
-				 <input type="text" name="street_map_yandex" value="<?php echo $this->foobar->street_map_yandex;?>">
+				 <input type="text" name="street_map_yandex" value="<?php echo $this->map->street_map_yandex;?>">
 			</td>
 		</tr>
 		
@@ -376,15 +388,16 @@ $document->addScriptDeclaration($script);
 				<?php
 					// define modal options
 					$modalOptions = array (
-					'size' => array('x' => 500, 'y' => 500)
+					'size' => array('x' => 800, 'y' => 600)
 					
 					);
 					// load modal JavaScript
 					JHTML::_('behavior.modal', 'a.modal', $modalOptions);
 				?>
-				<div style="display:inline" class="button2-left"><div class="image"><a href="<?php echo 'index.php?option=com_mapyandex&view=mapyandexajax&tmpl=component&cid[]='.$this->foobar->id; ?>" class="modal"
+				<div style="display:inline" class="button2-left"><div class="image"><a href="<?php echo 'index.php?option=com_mapyandex&view=mapyandexajax&tmpl=component&cid[]='.$this->map->id; ?>" class="modal"
 				rel = "{
-						handler: 'iframe'
+						handler: 'iframe',
+						width: '700px'
 						
 						}">
 						<?php echo JText::_( 'COM_MAPYANDEX_OPENMODAL' ); ?>
@@ -417,10 +430,8 @@ $document->addScriptDeclaration($script);
 
 </div>
 
-	<div class="span12 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'COM_MAPYANDEX_NEWYMAP' ); ?></legend>
-				
+	<div class="span5 fltlft">
+
 
 		<table class="admintable" style="width:100%;">
 			<tr>
@@ -430,7 +441,7 @@ $document->addScriptDeclaration($script);
 				</label>
 				<div class="clr"></div>
 
-			<textarea name="misil" rows="5" cols="50"></textarea>
+			<textarea name="misil" rows="10" cols="50"></textarea>
 
 			</td>
 		</tr>
@@ -441,7 +452,7 @@ $document->addScriptDeclaration($script);
 				</label>
 			<div class="clr"></div>
 
-			<textarea name="misilonclick" rows="5" cols="50"><?php echo $this->foobar->misilonclick;?></textarea>
+			<textarea name="misilonclick" rows="10" cols="50"><?php echo $this->map->misilonclick;?></textarea>
 
 			</td>
 		</tr>
@@ -456,7 +467,7 @@ $document->addScriptDeclaration($script);
 
 
 			<?php 
-			
+				$statet = array();
 				$statet[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_NOT_USE' ) );
 				$statet[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_BEFORE_MAP' ) );
 				$statet[] = JHTML::_('select.option','3', JText::_( 'COM_MAPYANDEX_AFTER_MAP' ) );
@@ -468,24 +479,10 @@ $document->addScriptDeclaration($script);
 
 	</div>
 
-	<div class="span12 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'COM_MAPYANDEX_NEWYMAP' ); ?></legend>
-				
 
-		<table class="admintable" style="width:100%;">
-			<tr>
-				<td>
-			<?php echo $this->form->getInput('text_map_yandex'); ?>
-				</td>
-			</tr>
-		</table>		
 
-	</div>
+	<div class="span5 fltlft">
 
-	<div class="span12 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_( 'COM_MAPYANDEX_NEWYMAP' ); ?></legend>
 				
 
 		<table class="admintable" style="width:100%;">
@@ -498,10 +495,10 @@ $document->addScriptDeclaration($script);
 			<td align="left">
 
 			<?php 
-			
+				$state = array();
 				$state[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_YES' ) );
 				$state[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_NO' ) );
-				echo JHTML::_('select.genericlist',  $state, $name = 'yandexborder', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->yandexborder, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $state, $name = 'yandexborder', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->yandexborder, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
@@ -527,10 +524,10 @@ $document->addScriptDeclaration($script);
 
 
 			<?php 
-			
+				$statec = array();
 				$statec[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_YES' ) );
 				$statec[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_NO' ) );
-				echo JHTML::_('select.genericlist',  $statec, $name = 'bradius', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->bradius, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $statec, $name = 'bradius', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->bradius, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
@@ -545,17 +542,33 @@ $document->addScriptDeclaration($script);
 
 
 			<?php 
-			
+				$statecen = array();
 				$statecen[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_YES' ) );
 				$statecen[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_NO' ) );
-				echo JHTML::_('select.genericlist',  $statecen, $name = 'center_map_yandex', $attribs = null, $key = 'value', $text = 'text', $selected = $this->foobar->center_map_yandex, $idtag = false, $translate = false );
+				echo JHTML::_('select.genericlist',  $statecen, $name = 'center_map_yandex', $attribs = null, $key = 'value', $text = 'text', $selected = $this->map->center_map_yandex, $idtag = false, $translate = false );
 			?>
 			</td>
 		</tr>
 		</table>		
 
 	</div>
+	
+<div class="clr"></div>
+	<div class="span5 clr">
 
+		<fieldset class="adminform">
+			<legend><?php echo JText::_( 'COM_MAPYANDEX_NEWYMAP_DESC' ); ?></legend>			
+		</fieldset>
+
+		<table class="admintable" style="width:100%;">
+			<tr>
+				<td>
+			<?php echo $this->form->getInput('text_map_yandex'); ?>
+				</td>
+			</tr>
+		</table>		
+
+	</div>
 </div>
 <div class="clr"></div>
 

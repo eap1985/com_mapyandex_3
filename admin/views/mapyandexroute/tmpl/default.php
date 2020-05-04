@@ -57,6 +57,9 @@ JHtml::_('formbehavior.chosen', 'select');
 			<th>
                 <?php echo JText::_( 'COM_MAPYANDEX_YMCODE' ); ?>
             </th>
+			<th>
+                <?php echo JText::_( 'COM_MAPYANDEX_TOTAL' ); ?>
+            </th>
         </tr>            
     </thead>
     <?php
@@ -88,6 +91,14 @@ JHtml::_('formbehavior.chosen', 'select');
             </td>
 			<td>
                 <?php echo '{mapyandex_id='.$row->id.'}' ?>
+            </td>
+
+			<td>
+                <?php 
+				$route = json_decode($row->route_map_yandex);
+				echo count($route);
+				
+				?>
             </td>
         </tr>
         <?php

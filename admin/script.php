@@ -179,6 +179,35 @@ class com_mapYandexInstallerScript
 				echo '<p>' .JText::_('COM_MAPYANDEX_POSTFLIGHT_TEST_COPY_ERROR'). '</p>';
 			}
 		
+		
+				
+			$db = JFactory::getDBO();
+			$status = new stdClass;
+			$status->modules = array();
+			$status->plugins = array();
+			$src = $parent->getParent()->getPath('source');
+			$manifest = $parent->getParent()->manifest;
+			
+			$plugins = $manifest->xpath('plugins/plugin');
+			foreach ($plugins as $plugin)
+			{
+				$name = (string)$plugin->attributes()->plugin;
+				$group = (string)$plugin->attributes()->group;
+				$path = $src.'/plugins/'.$group;
+				if (JFolder::exists($src.'/plugins/'.$group.'/'.$name))
+				{
+					$path = $src.'/plugins/'.$group.'/'.$name;
+				}
+				$installer = new JInstaller;
+				$result = $installer->install($path);
+			
+				$query = "UPDATE #__extensions SET enabled=1 WHERE type='plugin' AND element=".$db->Quote($name)." AND folder=".$db->Quote($group);
+				$db->setQuery($query);
+				$db->query();
+				$status->plugins[] = array('name' => $name, 'group' => $group, 'result' => $result);
+			}	
+			
+		
 			echo '<p>' .JText::_('COM_MAPYANDEX_POSTFLIGHT'). '</p>';
 	}
 
@@ -187,6 +216,28 @@ class com_mapYandexInstallerScript
 	 * uninstall runs before any other action is taken (file removal or database processing).
 	 */
 	function uninstall( $parent ) {
+		
+		$db = JFactory::getDBO();
+		$status = new stdClass;
+		$status->modules = array();
+		$status->plugins = array();
+		$src = $parent->getParent()->getPath('source');
+		$manifest = $parent->getParent()->manifest;
+		$plugins = $manifest->xpath('plugins/plugin');
+		foreach ($plugins as $plugin)
+		{
+			$name = (string)$plugin->attributes()->plugin;
+			$group = (string)$plugin->attributes()->group;
+			
+			$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `type` = "plugin" AND `element` = "'.$name.'" AND `folder` = "'.$group.'"');
+			$id = $db->loadResult();
+			if(!empty($id)) {
+				$installer = new JInstaller;
+				$result = $installer->uninstall('plugin',$id,1);
+				$status->plugins[] = array('name'=>$name,'group'=>$group, 'result'=>$result);
+				echo '<p>' . JText::_('COM_MAPYANDEX_UNINSTALL_PLUGIN') . '</p>';
+			}
+		}
 		echo '<p>' . JText::_('COM_MAPYANDEX_UNINSTALL') . '</p>';
 	}
  
