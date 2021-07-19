@@ -787,7 +787,7 @@ if($map_type =='map'){
 
 	$content .= ' <div id="YMapsID-'.$idcount.'" style="height:'.$map->height_map_yandex.'; width:'.$map->width_map_yandex.';"></div>
 
-		 <div style="width:'.$map->width_map_yandex.';'.$margin.';text-align:right;margin-top:5px;clear:both; font-size:10px;"><a href="http://slyweb.ru/developer/yandexmap/" title="Яндекс карты для Joomla">Яндекс карты для Joomla</a></div>
+		 <div style="width:'.$map->width_map_yandex.';'.$margin.';text-align:right;margin-top:5px;clear:both; font-size:10px;"><a href="http://slyweb.ru/yandexmap/" title="Яндекс карты для Joomla">Яндекс карты для Joomla</a></div>
 
 		 <div style="height:50px;" class="clear"></div>';
 

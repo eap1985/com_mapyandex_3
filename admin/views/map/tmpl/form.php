@@ -755,14 +755,18 @@ echo '<div class="tab-pane active" id="general">'."\n";
 			<div id="YMapsID" style="height:<?php echo $this->map->height_map_yandex;?>; width:<?php echo $this->map->width_map_yandex;?>;"></div>
 			<div id="info"></div>
 		</div>
-			
+
 			</div>
-			
-			
+
+
 
 				<!-- TEXT AND STYLE OF MAP-->
 			<div class="control-group">
+                <div class="control-label">
 
+                    <?php echo $this->form->getLabel('text_map_yandex'); ?>
+                </div>
+                <div class="clearfix"></div>
 					<?php echo $this->form->getInput('text_map_yandex'); ?>
 		
 			</div>

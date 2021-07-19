@@ -43,7 +43,7 @@ JHtml::_('formbehavior.chosen', 'select');
             </th>
 
             <th width="20">
-              <input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->allroute ); ?>);" />
+                <input type="checkbox" name="checkall-toggle" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" value="" onclick="Joomla.checkAll(this);" />
             </th>
 			<th width="200">
                 <?php echo JText::_( 'COM_MAPYANDEX_NAMEMAP' ); ?>
