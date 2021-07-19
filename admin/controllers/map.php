@@ -55,10 +55,10 @@ class MapYandexControllerMap extends MapYandexController
 	
 		$model = $this->getModel('map');
 		
-		if ($model->store($post)) {
-			$msg = JText::_( 'COM_MAPYANDEX_SUCCESS' );
+		if ($model->store()) {
+			$msg = JText::_( 'COM_MAPYANDEX_SAVE_SUCCESS' );
 		} else {
-			$msg = JText::_( 'COM_MAPYANDEX_ERROR' );
+			$msg = JText::_( 'COM_MAPYANDEX_SAVE_ERROR' );
 		}
 
 		// Check the table in so it can be edited.... we are done with it anyway
@@ -71,7 +71,7 @@ class MapYandexControllerMap extends MapYandexController
 	
 		$model = $this->getModel('map');
 		
-		if ($model->store($post)) {
+		if ($model->store()) {
 			$msg = JText::_( 'COM_MAPYANDEX_SUCCESS' );
 		} else {
 			$msg = JText::_( 'COM_MAPYANDEX_ERROR' );

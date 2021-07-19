@@ -230,15 +230,16 @@ protected	$option 		= 'com_mapyandex';
 	}
 		
 		
-	function store($post)
+	function store()
 	{	
 		$row = $this->getTable('map');
-		
+        $jinput = JFactory::getApplication()->input->post;
+		$data = $jinput->getArray();
 
-		$data = JRequest::get( 'post' );
-		$data['misil'] = JRequest::getVar('misil', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['misilonclick'] = JRequest::getVar('misilonclick', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$jform = JRequest::getVar('jform', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $data['misil'] = $jinput->get('misil', '', 'str');
+        $data['misilonclick'] = $jinput->get('misilonclick', '', 'str');;
+        $data['text_map_yandex'] = $jinput->get('jform', '', 'str');;
+
 		// Bind the form fields to the hello table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
@@ -280,7 +281,8 @@ protected	$option 		= 'com_mapyandex';
 			. ' WHERE id = ' .$cid;
 				$db->setQuery( $query );
 				if (!$db->query()) {
-					JError::raiseWarning( 500, $db->getError() );
+                    $this->setError($this->_db->getErrorMsg());
+                    return false;
 				}
 			}
 		}

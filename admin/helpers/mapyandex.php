@@ -112,11 +112,12 @@ class MapYandexHelper
 	{
 			
 		$region = json_decode($map->region_map_yandex);
-		$map_region_style = array();
-		$map_region_style[1] = '#0000FF';
+
+
 		$region_border_color = '#FFFF00';
 		$map_region_style = json_decode($map->map_region_style);
 		if(!is_array($map_region_style) || empty($map_region_style)) {
+        $map_region_style = array('','#0000FF');
 		$styleoption = '											
 				strokeWidth: 6,
 				strokeColor: \''.$map_region_style[1].'\', // синий
@@ -132,7 +133,7 @@ class MapYandexHelper
 				draggable: true      // объект можно перемещать, зажав левую кнопку мыши';
 		}
 		if($region) {
-
+            $textarrayonput = '';
 			$gi = -1;
 			$length = count($region)-1;
 			$ymapregion = '
@@ -143,7 +144,7 @@ class MapYandexHelper
 						  
 						  $textarrayonput  .= '<li class="ui-state-default"><div width="100" align="left" class="key"><label for="foobar">'.$textbefore.'</label></div><div width="100" align="left"><input type="text" class="acpro_inp_'.($gi+1).' newroute" name="name_region_yandex[]" size="100" value="'.$val.'" /></div><div class="imgdeleteroute" rel="'.($gi+1).'" data-region="'.$map->id.'">'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/iconfalse.png', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' )).'</div><div>'.JHTML::_( 'image', 'administrator/components/com_mapyandex/assets/images/icon-loading2.gif', JText::_( 'COM_MAPYANDEX_DELETE_ROUTE_ITEM' ),array('class'=>'imgyandexmaploader')).'</div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></li>';
 							
-							if($textarray != '') {
+							if(!empty($textarray))  {
 								$textarray = substr($textarray, 0, -1);
 							}
 				
@@ -296,11 +297,10 @@ class MapYandexHelper
 
 					
 
-				});
-			
-';
+				});';
+            return $ymapregion;
 		}
-		return $ymapregion;
+
 	}	
 	
 	
@@ -358,25 +358,19 @@ class MapYandexHelper
 	{
 		
 		$textarray = '';
-		$textarrayonput = ''; 
 		$route = json_decode($map->route_map_yandex);
 
-		
-		$cr = count($route);
 		if($route) {
 			$i = -1;
 			$length = count($route)-1;
 			foreach($route as $val) {
 			$i++;
 						$textarray  .= '\''.$val.'\',';
-						
-	
-							
-
 			}
-						if($textarray != '') {
-							$textarray = substr($textarray, 0, -1);
-						}
+
+			if($textarray != '') {
+				$textarray = substr($textarray, 0, -1);
+			}
  
  
 			$ymaproute = 'ymaps.route([

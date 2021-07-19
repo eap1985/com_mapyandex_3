@@ -25,9 +25,9 @@ JHtml::_('formbehavior.chosen', 'select');
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MAPYANDEX_SEARCH_IN_TITLE'); ?>" />
 			</div>
 		<div class="btn-group pull-left hidden-phone">
-		<button class="btn tip hasTooltip" type="submit" title="<?php JText::_($txtFs);?>"><i class="icon-search"></i></button>
+		<button class="btn tip hasTooltip" type="submit" title="<?php JText::_('COM_MAPYANDEX_SEARCH');?>"><i class="icon-search"></i></button>
 		<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();"
-		 title="<?php JText::_($txtFc);?>"><i class="icon-remove"></i></button>
+		 title="<?php JText::_('COM_MAPYANDEX_SUB');?>"><i class="icon-remove"></i></button>
 		</div>
 		<div class="btn-group pull-right hidden-phone">
 			<?php echo $this->pageNav->getLimitBox(); ?>

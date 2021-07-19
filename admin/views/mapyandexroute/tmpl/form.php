@@ -510,7 +510,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 	</ul>
 	</div>
 	
-	<button class="btn btn-small btn-success addnewroute"><i class="icon-apply icon-white"> </i><?php echo JText::_('COM_MAPYANDEX_ROUTE_PROCESS'); ?></button>
+	<button class="btn btn-small btn-success addnewroute"><i class="icon-apply icon-white"> </i><?php echo JText::_('COM_MAPYANDEX_ROUTE_ADD'); ?></button>
 
 
 </div>

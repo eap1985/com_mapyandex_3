@@ -82,7 +82,8 @@ if(strpos($this->map->height_map_yandex,'%') == false) {
 
 //всё шиворот на выворот
 if($this->map->yandexcoord == 1) {
-
+    $longitude = '';
+    $latitude = '';
 	$stylecoo='style="display:none;"';
 	$valone = 'var valone = "'.$this->map->city_map_yandex.', '.$this->map->street_map_yandex.'"';
 	$address = $this->map->city_map_yandex.', '.$this->map->street_map_yandex;
@@ -345,13 +346,15 @@ $defaultmap = ($this->map->defaultmap) ? $this->map->defaultmap : 'publicMap';
 
 if($this->route) {
 	$ymaproute = $this->route;
-} 
+} else {
+    $ymaproute = '';
+}
 
 if($this->regions) {
 	$ymapregion = $this->regions;
-} 
-
-
+} else {
+    $ymapregion = '';
+}
 
 $script ='	
 
@@ -391,7 +394,6 @@ $script ='
 	ymaps.ready(function () { 
 	
 			var map;
-
 	  
 			'.$autozoom.'
 			'.$valone.'
@@ -428,8 +430,7 @@ $script ='
 						}
 					});
 				} else {
-	
-	
+		
 				map.zoomRange.get(
 					/* Координаты точки, в которой определяются 
 					   значения коэффициентов масштабирования */ 
@@ -747,16 +748,12 @@ echo '<div class="tab-pane active" id="general">'."\n";
 				</div>
 			</div>
 			
-			
-	<!-- Map Here-->
+			<!-- Map Here-->
 			<div class="control-group">
 
-				
 		<div id="editcell">
 			<div id="YMapsID" style="height:<?php echo $this->map->height_map_yandex;?>; width:<?php echo $this->map->width_map_yandex;?>;"></div>
-			
 			<div id="info"></div>
-
 		</div>
 			
 			</div>

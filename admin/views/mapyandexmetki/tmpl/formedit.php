@@ -189,8 +189,8 @@ echo '<div class="tab-pane active" id="general">'."\n";
 						<?php echo JText::_( 'COM_MAPYANDEX_MARKER_BALOON' ); ?>:
 				</div>
 				<div class="controls">
-			<?php 
-
+			<?php
+            $wih = json_decode($this->editmarker->wih);
 				$baloon = array();
 				$baloon[] = JHTML::_('select.option','1', JText::_( 'COM_MAPYANDEX_MARKER_BALOON' ));
 				$baloon[] = JHTML::_('select.option','2', JText::_( 'COM_MAPYANDEX_MARKER_BALOON_NOT' ));
@@ -216,7 +216,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 						<?php echo JText::_( 'COM_MAPYANDEX_SEACRHMETHOD' ); ?>
 				</div>
 				<div class="controls">
-				<?php 
+				<?php
 
 				$statecoord[] = JHTML::_('select.option','1', JText::_( 'По адресу' ) );
 				$statecoord[] = JHTML::_('select.option','2', JText::_( 'По координатам' ) );
@@ -286,7 +286,7 @@ echo '<div class="tab-pane active" id="general">'."\n";
 				</div>
 				<div class="controls">
 					<?php 
-						$wih = json_decode($this->editmarker->wih);
+
 					
 						$width = array();
 						$width[] = JHTML::_('select.option','100',100);

@@ -30,13 +30,9 @@ var $_metka;
 */
 	function __construct()
 	{
-
 		parent::__construct();
 		// get the cid array from the default request hash
-
-		$id = JRequest::getVar('id', 3);
-
-		
+        $id = JFactory::getApplication()->input->get('id');
 		$this->setId($id);
 	}
 
@@ -100,7 +96,7 @@ var $_metka;
 	}
 
 /**
-* Обновление ID и данных
+* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 *
 * @param int foobar ID
 */
@@ -111,7 +107,7 @@ var $_metka;
 		$this->_foobar = null;
 	}
 /**
-* Получаем данные класса
+* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 *
 * @return object
 */
@@ -124,6 +120,8 @@ var $_metka;
 			$db = $this->getDBO();
 			$query = "SELECT * FROM ".$db->quoteName('#__map_yandex') 
 			." WHERE ".$db->quoteName('id')." = ".$this->_id;
+
+
 			$db->setQuery($query);
 			$this->_foobar = $db->loadObject();
 		}
@@ -161,31 +159,31 @@ var $_metka;
 	 * @access	public
 	 * @return	boolean	True on success
 	 */
-	function store($post)
+	function store()
 	{	
 		$row = $this->getTable();
-		
-	
-		
-		$data = JRequest::get( 'post' );
-		$data['misil'] = JRequest::getVar('misil', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['misilonclick'] = JRequest::getVar('misilonclick', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['text_map_yandex'] = JRequest::getVar('jform', '', 'post', 'string', JREQUEST_ALLOWRAW);
+        $jinput = JFactory::getApplication()->input->post;
+
+        $data = $jinput->getArray();
+		$data['misil'] = $jinput->get('misil', '', 'str');
+		$data['misilonclick'] = $jinput->get('misilonclick', '', 'str');;
+		$form = $jinput->get('jform', '', 'RAW');;
+
 		// Bind the form fields to the hello table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		
+
 		$lng = json_encode(array('longitude_map_yandex' => $data['longitude_map_yandex'],'latitude_map_yandex'=>$data['latitude_map_yandex']));
 		$el = json_encode($data['yandexel']);
 		$date = date("Y-m-d H:i:s", time());
 		// Store the web link table to the database
 			$db = $this->getDBO();
-			$query = "UPDATE ".$db->quoteName('#__map_yandex') 
+			$query = "UPDATE ".$db->quoteName('#__map_yandex')
 			." set ".$db->quoteName('misil')." = '".$this->textnl($data['misil'])
 			."', ".$db->quoteName('misilonclick')." = '".$this->textnl($data['misilonclick'])
-			."', ".$db->quoteName('id_map_yandex')." = '".$data['id_map_yandex']
+			."', ".$db->quoteName('id_map_yandex')." = '".$data['id']
 			."', ".$db->quoteName('checked_out_time')." = '".$date
 			."', ".$db->quoteName('defaultmap')." = '".$data['defaultmap']
 			."', ".$db->quoteName('name_map_yandex')." = '".$data['name_map_yandex']
@@ -195,30 +193,32 @@ var $_metka;
 			."', ".$db->quoteName('height_map_yandex')." = '".$data['height_map_yandex']
 			."', ".$db->quoteName('oblako_width_map_yandex')." = '".$data['oblako_width_map_yandex']
 			."', ".$db->quoteName('yandexbutton')." = '".$data['yandexbutton']
-			."', ".$db->quoteName('color_map_yandex')." = '".$data['text_map_yandex']['color_map_yandex']
+			."', ".$db->quoteName('color_map_yandex')." = '".$form['color_map_yandex']
 			."', ".$db->quoteName('bradius')." = '".$data['bradius']
 			."', ".$db->quoteName('center_map_yandex')." = '".$data['center_map_yandex']
 			."', ".$db->quoteName('yandexborder')." = '".$data['yandexborder']
-			."', ".$db->quoteName('text_map_yandex')." = '".$data['text_map_yandex']['text_map_yandex']
+			."', ".$db->quoteName('text_map_yandex')." = '".$form['text_map_yandex']
 			."', ".$db->quoteName('where_text')." = '".$data['where_text']
 			."', ".$db->quoteName('yandexcoord')." = '".$data['yandexcoord']
 			."', ".$db->quoteName('lng')." = '".$lng
 			."', ".$db->quoteName('yandexzoom')." = '".$data['yandexzoom']
-			."', ".$db->quoteName('autozoom')." = '".$data['text_map_yandex']['autozoom']
+			."', ".$db->quoteName('autozoom')." = '".$form['autozoom']
 			."', ".$db->quoteName('yandexel')." = '".$el
-			."', ".$db->quoteName('map_baloon_or_placemark')." = '".$data['text_map_yandex']['map_baloon_or_placemark']
-			."', ".$db->quoteName('map_baloon_minwidth')." = '".$data['text_map_yandex']['map_baloon_minwidth']
-			."', ".$db->quoteName('map_baloon_minheight')." = '". $data['text_map_yandex']['map_baloon_minheight']
-			."', ".$db->quoteName('map_baloon_autopanduration')." = '".$data['text_map_yandex']['map_baloon_autopanduration']
-			."', ".$db->quoteName('map_baloon_autopan')." = '".$data['text_map_yandex']['map_baloon_autopan']
-			."', ".$db->quoteName('map_centering')." = '".$data['text_map_yandex']['map_centering']
-			."', ".$db->quoteName('map_settings_user_all')." = '".$data['text_map_yandex']['map_settings_user_all']
+			."', ".$db->quoteName('map_baloon_or_placemark')." = '".$form['map_baloon_or_placemark']
+			."', ".$db->quoteName('map_baloon_minwidth')." = '".$form['map_baloon_minwidth']
+			."', ".$db->quoteName('map_baloon_minheight')." = '". $form['map_baloon_minheight']
+			."', ".$db->quoteName('map_baloon_autopanduration')." = '".$form['map_baloon_autopanduration']
+			."', ".$db->quoteName('map_baloon_autopan')." = '".$form['map_baloon_autopan']
+			."', ".$db->quoteName('map_centering')." = '".$form['map_centering']
+			."', ".$db->quoteName('map_settings_user_all')." = '".$form['map_settings_user_all']
 			."' WHERE ".$db->quoteName('id')." =".$data['id'];
+
+
 			$db->setQuery($query);
 			if (!$db->query()) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
+			    $this->setError($this->_db->getErrorMsg());
+			    return false;
+		    }
 			
 
 		return true;
