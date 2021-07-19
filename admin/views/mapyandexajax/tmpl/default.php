@@ -16,10 +16,10 @@
 
 <script type="text/javascript">
             var map, placemark;
-            
-            window.onload = function init () {
-				
-			ymaps.geocode("Moscow", {results: 100}).then(function (res) {
+
+            ymaps.ready(function () {
+
+                ymaps.geocode("Moscow", {results: 100}).then(function (res) {
 				//console.log( 123);
 				//console.log( res.geoObjects.get(0));
 				map = new ymaps.Map("YMapsID", {
@@ -49,7 +49,7 @@
             });
             
 
-			}
+			});
 			
 
 			function showAddress (value) {
